@@ -5,19 +5,19 @@ import fonts from '../../styles/fonts';
 
 interface ButtonProps extends TouchableOpacityProps {
     text: string
-    inactive?: boolean
 }
 
-export function Button({ text, inactive, ...rest }: ButtonProps) {
+export function Button({ text, disabled, ...rest }: ButtonProps) {
     return (
         <TouchableOpacity style={[
             styles.container,
-            inactive && {
+            disabled && {
                 backgroundColor: colors.plate,
                 borderBottomColor: colors.smoke,
             }
         ]}
             {...rest}
+            disabled={disabled}
         >
             <Text style={styles.text}>
                 {text}
