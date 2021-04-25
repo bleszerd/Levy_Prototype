@@ -4,43 +4,44 @@ import {
     View,
     SafeAreaView,
     Text,
-    StyleSheet
+    StyleSheet,
 } from 'react-native'
 
 import Logo from '../components/assets/Logo'
 import { Button } from '../components/Button';
+
 import colors from '../styles/colors';
+import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
+
 
 export function TourHome() {
     const navigation = useNavigation()
 
-    function handleStart(){
+    function handleStart() {
         navigation.navigate("TourName")
     }
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.pageContainer}>
-
-                <View style={styles.logoPresentation}>
-                    <Text style={styles.logoText}>LEV</Text>
+            <View style={styles.header}>
+                <View style={styles.logo}>
+                    <Text style={styles.logoTitle}>
+                        LEV
+                    </Text>
                     <Logo
-                        width={160}
-                        height={160}
+                        width={dimensions.window.width * 0.4}
                     />
                 </View>
+            </View>
 
-                <View style={styles.welcome}>
-                    <Text style={styles.welcomeTitle}>
-                        Mergulhe de cabeça
-                    </Text>
-
-                    <Text style={styles.welcomeSubtitle}>
-                        nos melhores produtos da internet
-                    </Text>
-                </View>
-
+            <View style={styles.body}>
+                <Text style={styles.logoTextTitle}>
+                    Mergulhe de cabeça
+                </Text>
+                <Text style={styles.logoTextSubtitle}>
+                    nos melhores produtos da internet
+                </Text>
             </View>
 
             <View style={styles.button}>
@@ -49,52 +50,47 @@ export function TourHome() {
                     onPress={handleStart}
                 />
             </View>
-
         </SafeAreaView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
+        paddingHorizontal: dimensions.window.width * 0.08,
         flex: 1,
-        paddingHorizontal: 24
     },
-    pageContainer: {
+    header: {
         flex: 1,
-        justifyContent: 'space-evenly',
-        alignItems: 'center',
+        height: dimensions.window.height * 0.6
     },
-    logoPresentation: {
+    logo: {
         flexDirection: 'row',
-        width: "100%",
         justifyContent: 'center',
         alignItems: 'center',
     },
-    logoText: {
-        color: colors.white,
-        fontSize: 96,
-        fontFamily: fonts.title
-    },
-    welcome: {
-        width: '100%'
-    },
-    welcomeTitle: {
-        color: colors.white,
-        textAlign: 'center',
-        fontSize: 28,
+    logoTitle: {
         fontFamily: fonts.title,
-        paddingVertical: 0,
-        marginBottom: -13,
+        color: colors.white,
+        fontSize: 72,
+        paddingRight: 6,
     },
-    welcomeSubtitle: {
+    body: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    logoTextTitle: {
+        fontFamily: fonts.title,
+        color: colors.white,
+        fontSize: 28,
+    },
+    logoTextSubtitle: {
+        fontFamily: fonts.text,
         color: colors.plate,
-        textAlign: 'center',
-        overflow: 'visible',
-        fontSize: 19,
-        paddingVertical: 0,
+        fontSize: 17,
+        marginTop: -12,
     },
     button: {
-        paddingVertical: '16%',
-        width: '100%',
+        paddingVertical: 36
     }
 })
