@@ -26,6 +26,8 @@ export function TourName() {
     const [inputIsFocused, setInputIsFocused] = useState(false)
     const [nameIsValid, setNameIsValid] = useState(false)
 
+    const navigation = useNavigation()
+
     //Input name validation
     useEffect(() => {
         if ((!!name && name?.length >= 3) && !hasAnyExplicityWords(name)) {
@@ -54,7 +56,7 @@ export function TourName() {
     }
 
     function handleMoveOn() {
-        //Navigate to next page
+        navigation.navigate("TourGender")
     }
 
     return (
