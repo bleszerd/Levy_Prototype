@@ -5,8 +5,10 @@ import { Homepage } from '../pages/Homepage'
 import { TourHome } from '../pages/TourHome'
 import { TourName } from '../pages/TourName'
 import { TourGender } from '../pages/TourGender'
+import { TourPhoto } from '../pages/TourPhoto'
 
 import colors from '../styles/colors'
+import { TourDone } from '../pages/TourDone'
 
 const StackRoute = createStackNavigator()
 
@@ -33,6 +35,21 @@ const AppRoutes: React.FC = () => (
         <StackRoute.Screen
             name="TourGender"
             component={TourGender}
+        />
+
+        <StackRoute.Screen
+            name="TourPhoto"
+            component={TourPhoto}
+        />
+
+        <StackRoute.Screen
+            name="TourDone"
+            component={TourDone}
+        />
+
+        <StackRoute.Screen
+            name="Homepage"
+            component={Homepage}
         />
 
     </StackRoute.Navigator>
