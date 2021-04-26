@@ -13,6 +13,7 @@ import MaleProfile from '../components/assets/MaleProfile'
 import dimensions from '../styles/dimensions';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
+import { useNavigation } from '@react-navigation/core';
 
 type Gender = "male" | "female"
 
@@ -20,13 +21,19 @@ export function TourGender() {
     const [gender, setGender] = useState<Gender>("female")
     const [labelText, setLabelText] = useState("A vendedora.")
 
-    useEffect(()=>{
+    const navigation = useNavigation()
+
+    useEffect(() => {
         setLabelText(gender === 'male' ? "O vendedor.  👨" : "A vendedora.  👩")
     }, [gender])
 
     function handleGenderSelect(value: Gender) {
-        if(value != gender)
+        if (value != gender)
             setGender(value)
+    }
+
+    function handleChoosePhoto() {
+        navigation.navigate("TourPhoto")
     }
 
     return (
@@ -91,6 +98,7 @@ export function TourGender() {
             <View style={styles.button}>
                 <Button
                     text="Está tudo certo"
+                    onPress={handleChoosePhoto}
                 />
             </View>
         </SafeAreaView>

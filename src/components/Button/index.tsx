@@ -3,14 +3,18 @@ import { TouchableOpacity, TouchableOpacityProps, Text, StyleSheet } from 'react
 import colors from '../../styles/colors';
 import fonts from '../../styles/fonts';
 
+type ButtonType = 'default' | 'error'
+
 interface ButtonProps extends TouchableOpacityProps {
     text: string
+    type?: ButtonType
 }
 
-export function Button({ text, disabled, ...rest }: ButtonProps) {
+export function Button({ text, disabled, type = "default", ...rest }: ButtonProps) {
     return (
         <TouchableOpacity style={[
             styles.container,
+            styles[type],
             disabled && {
                 backgroundColor: colors.plate,
                 borderBottomColor: colors.smoke,
@@ -33,15 +37,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 18,
-        backgroundColor: colors.orange,
-        borderBottomColor: colors.dark_orange,
         borderBottomWidth: 6,
         borderTopWidth: .1,
         borderLeftWidth: .1,
         borderRightWidth: .1,
     },
     text: {
+        marginTop: 6,
         color: colors.white,
         fontFamily: fonts.text,
+    },
+    default: {
+        backgroundColor: colors.orange,
+        borderBottomColor: colors.dark_orange,
+    },
+    error: {
+        backgroundColor: colors.error,
+        borderBottomColor: colors.dark_error,
     }
 })
