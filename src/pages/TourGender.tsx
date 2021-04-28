@@ -14,14 +14,16 @@ import dimensions from '../styles/dimensions';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import { useNavigation } from '@react-navigation/core';
+import { useUserTourInfo } from '../context/userTour';
 
-type Gender = "male" | "female"
+export type Gender = "male" | "female"
 
 export function TourGender() {
     const [gender, setGender] = useState<Gender>("female")
     const [labelText, setLabelText] = useState("A vendedora.")
 
     const navigation = useNavigation()
+    const { userInfo, userInfoController } = useUserTourInfo()
 
     useEffect(() => {
         setLabelText(gender === 'male' ? "O vendedor.  👨" : "A vendedora.  👩")
@@ -33,6 +35,11 @@ export function TourGender() {
     }
 
     function handleChoosePhoto() {
+        userInfoController.updateUserInfo({
+            ...userInfo,
+            gender
+        })
+
         navigation.navigate("TourPhoto")
     }
 
@@ -44,7 +51,7 @@ export function TourGender() {
                 </Text>
 
                 <Text style={styles.headerName}>
-                    Vinícius
+                    {userInfo.name}
                 </Text>
             </View>
 
