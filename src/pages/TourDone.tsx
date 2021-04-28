@@ -9,6 +9,7 @@ import {
 
 import AllDone from '../components/assets/AllDone'
 import { Button } from '../components/Button';
+import { useUserTourInfo } from '../context/userTour';
 
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
@@ -17,6 +18,8 @@ import fonts from '../styles/fonts';
 
 export function TourDone() {
     const navigation = useNavigation()
+
+    const {userInfo} = useUserTourInfo()
 
     function handleDoneTour() {
         navigation.navigate("Homepage")
@@ -32,7 +35,7 @@ export function TourDone() {
 
             <View style={styles.body}>
                 <Text style={styles.logoTextTitle}>
-                    É isso aí, Vinícius!  😆
+                    É isso aí, {userInfo.name}  😆
                 </Text>
                 <Text style={styles.logoTextSubtitle}>
                     Obrigado por completar o seu perfil

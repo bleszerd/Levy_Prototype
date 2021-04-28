@@ -10,6 +10,8 @@ import {
     TouchableWithoutFeedback,
     Keyboard
 } from 'react-native'
+import { hasAnyExplicityWords } from '../utils/text';
+import { useUserTourInfo } from '../context/userTour';
 
 import BuildingProfileImage from '../components/assets/BuildingProfileImage'
 import { Button } from '../components/Button';
@@ -17,15 +19,15 @@ import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
-import { hasAnyExplicityWords } from '../utils/text';
 
 export function TourName() {
     const [name, setName] = useState<string>("")
-    const [subtitleMsg, setSubtitleMsg] = useState("Vamos nos conhecer")
+    const [subtitleMsg, setSubtitleMsg] = useState("")
 
     const [inputIsFocused, setInputIsFocused] = useState(false)
     const [nameIsValid, setNameIsValid] = useState(false)
 
+    const { userInfo, userInfoController } = useUserTourInfo()
     const navigation = useNavigation()
 
     //Input name validation
@@ -34,7 +36,7 @@ export function TourName() {
             setNameIsValid(true)
         } else {
             setNameIsValid(false)
-            name != "" ? setSubtitleMsg("Hmmm, vamos tentar um nome mais legal...") : setSubtitleMsg("Vamos nos conhecer")
+            name != "" ? setSubtitleMsg("Hmmm, vamos tentar um nome mais legal...") : setSubtitleMsg("Me diga seu nome")
         }
     }, [name])
 
@@ -56,6 +58,11 @@ export function TourName() {
     }
 
     function handleMoveOn() {
+        userInfoController.updateUserInfo({
+            ...userInfo,
+            name
+        })
+        
         navigation.navigate("TourGender")
     }
 
@@ -164,7 +171,7 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         textAlign: 'center',
         fontSize: 18,
-        color: colors.smoke
+        color: colors.white
     },
     button: {
         paddingVertical: 36

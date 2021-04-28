@@ -21,6 +21,7 @@ import dimensions from '../styles/dimensions';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import { Button } from '../components/Button';
+import { useUserTourInfo } from '../context/userTour';
 
 export function TourPhoto() {
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean>()
@@ -31,6 +32,8 @@ export function TourPhoto() {
     const [selectModalIsOpen, setSelectModalIsOpen] = useState(false)
 
     const [base64Image, setBase64Image] = useState<null | string>(null)
+
+    const { userInfo, userInfoController } = useUserTourInfo()
 
     const cameraRef = useRef<Camera>(null)
 
@@ -46,10 +49,6 @@ export function TourPhoto() {
         }
     }, [hasCameraPermission])
 
-    useEffect(() => {
-        console.log(`data:image/gif;base64,${base64Image}`);
-    }, [base64Image])
-
     function handleSkipPhoto() {
         Alert.alert("Você pode fazer isso depois!", "", [
             {
@@ -62,7 +61,14 @@ export function TourPhoto() {
     }
 
     function handleConfirmPhoto() {
-        navigation.navigate("TourDone")
+        if (base64Image) {
+            userInfoController.updateUserInfo({
+                ...userInfo,
+                photo: base64Image
+            })
+
+            navigation.navigate("TourDone")
+        }
     }
 
     //Get photo from gallery
@@ -76,7 +82,7 @@ export function TourPhoto() {
             base64: true
         })
 
-        if(!result.cancelled && result.base64){
+        if (!result.cancelled && result.base64) {
             setSelectModalIsOpen(false)
             setBase64Image(result.base64)
         }
@@ -91,14 +97,11 @@ export function TourPhoto() {
             })
 
             if (!photo) {
-                console.log("An error accurs during the process!");
                 return
             }
 
             if (photo.base64) {
                 setBase64Image(photo.base64)
-
-                console.log(photo.uri);
             }
         }
     }
@@ -163,7 +166,7 @@ export function TourPhoto() {
                 </Text>
 
                 <Text style={styles.headerName}>
-                    Vinícius
+                    {userInfo.name}
                 </Text>
             </View>
 
@@ -177,7 +180,7 @@ export function TourPhoto() {
                                 <Text style={styles.optionLabel}>Tirar uma foto</Text>
                                 <FontAwesome
                                     name="camera"
-                                    size={42}
+                                    size={dimensions.window.width * .2}
                                     color={colors.white}
                                 />
                             </TouchableOpacity>
@@ -188,7 +191,7 @@ export function TourPhoto() {
                                 <Text style={styles.optionLabel}>Abrir galeria</Text>
                                 <FontAwesome
                                     name="photo"
-                                    size={42}
+                                    size={dimensions.window.width * .2}
                                     color={colors.white}
                                 />
                             </TouchableOpacity>
@@ -309,7 +312,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: colors.soft_dark,
         width: dimensions.screen.width * .9,
-        flexDirection: 'row',
+        height: dimensions.screen.height * .8,
         paddingTop: 32,
         paddingBottom: 48,
         paddingHorizontal: 16,
@@ -320,8 +323,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     optionLabel: {
-        color: colors.plate,
+        color: colors.white,
+        fontFamily: fonts.text,
         paddingVertical: 10,
+        paddingBottom: 20,
     },
     modalButton: {
         marginTop: 24,
@@ -361,7 +366,8 @@ const styles = StyleSheet.create({
     },
     cameraHintText: {
         color: colors.plate,
-        fontFamily: fonts.title,
+        fontFamily: fonts.text,
+        fontSize: 16,
         marginTop: -42,
         textAlign: 'center',
     },
