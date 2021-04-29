@@ -6,6 +6,7 @@ import {
     Text,
     StyleSheet,
 } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import AllDone from '../components/assets/AllDone'
 import { Button } from '../components/Button';
@@ -18,17 +19,24 @@ import fonts from '../styles/fonts';
 
 export function TourDone() {
     const navigation = useNavigation()
+    const { userInfo } = useUserTourInfo()
 
-    const {userInfo} = useUserTourInfo()
+    async function saveUserInfoOnAsyncStorage() {
+        await AsyncStorage.setItem(
+            "com.github.levy:userInfo",
+            JSON.stringify(userInfo)
+        )
+    }
 
-    function handleDoneTour() {
-        navigation.navigate("Homepage")
+    async function handleDoneTour() {
+        await saveUserInfoOnAsyncStorage()
+        navigation.navigate("HandleDrawer")
     }
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <AllDone 
+                <AllDone
                     width={dimensions.window.width * 0.8}
                 />
             </View>
@@ -45,7 +53,7 @@ export function TourDone() {
             <View style={styles.button}>
                 <Button
                     text="Completar Perfil"
-                    onPress={handleDoneTour}
+                    onPress={() => handleDoneTour()}
                 />
             </View>
         </SafeAreaView>

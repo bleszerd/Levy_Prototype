@@ -7,8 +7,8 @@ export default {
     smoke: "#50515C",
 
     dark: "#020313",
-    soft_dark: "rgba(16, 18, 46, 60)",
-    dark_smoke: "rgba(28, 22, 43, 98)",
+    soft_dark: "rgba(16, 18, 46, .6)",
+    dark_smoke: "#1F1A2E",
 
     success: "#04C485",
     error: "#D82C22",

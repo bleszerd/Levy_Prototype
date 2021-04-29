@@ -9,6 +9,8 @@ import { TourPhoto } from '../pages/TourPhoto'
 
 import colors from '../styles/colors'
 import { TourDone } from '../pages/TourDone'
+import AuthRoutes from './tab.routes'
+import { WelcomeLoading } from '../pages/WelcomeLoading'
 
 const StackRoute = createStackNavigator()
 
@@ -21,6 +23,11 @@ const AppRoutes: React.FC = () => (
             },
         }}
     >
+
+        <StackRoute.Screen
+            name="Welcome"
+            component={WelcomeLoading}
+        />
 
         <StackRoute.Screen
             name="TourHome"
@@ -48,8 +55,8 @@ const AppRoutes: React.FC = () => (
         />
 
         <StackRoute.Screen
-            name="Homepage"
-            component={Homepage}
+            name="HandleDrawer"
+            component={AuthRoutes}
         />
 
     </StackRoute.Navigator>

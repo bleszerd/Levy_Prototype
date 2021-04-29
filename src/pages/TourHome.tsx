@@ -1,11 +1,12 @@
-import { useNavigation } from '@react-navigation/core';
-import React from 'react';
+import { DrawerActions, useNavigation, StackActions, NavigationAction } from '@react-navigation/core';
+import React, { useCallback, useEffect, useState } from 'react';
 import {
     View,
     SafeAreaView,
     Text,
     StyleSheet,
 } from 'react-native'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import Logo from '../components/assets/Logo'
 import { Button } from '../components/Button';
@@ -13,9 +14,12 @@ import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
+import { useUserTourInfo } from '../context/userTour';
 
 
 export function TourHome() {
+    const { userInfo, userInfoController } = useUserTourInfo()
+
     const navigation = useNavigation()
 
     function handleStart() {
