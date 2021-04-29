@@ -22,6 +22,7 @@ import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import { Button } from '../components/Button';
 import { useUserTourInfo } from '../context/userTour';
+import { UserProfileHeader } from '../components/UserProfileHeader';
 
 export function TourPhoto() {
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean>()
@@ -161,13 +162,9 @@ export function TourPhoto() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>
-                    Certo,
-                </Text>
-
-                <Text style={styles.headerName}>
-                    {userInfo.name}
-                </Text>
+                <UserProfileHeader 
+                    subLabel="Quase lá,"
+                />
             </View>
 
             {

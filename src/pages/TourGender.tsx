@@ -15,6 +15,7 @@ import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import { useNavigation } from '@react-navigation/core';
 import { useUserTourInfo } from '../context/userTour';
+import { UserProfileHeader } from '../components/UserProfileHeader';
 
 export type Gender = "male" | "female"
 
@@ -46,13 +47,9 @@ export function TourGender() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.headerText}>
-                    Certo,
-                </Text>
-
-                <Text style={styles.headerName}>
-                    {userInfo.name}
-                </Text>
+                <UserProfileHeader 
+                    subLabel="Certo,"
+                />
             </View>
 
             <View style={styles.body}>
@@ -126,19 +123,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: .2,
         width: '100%',
-    },
-    headerText: {
-        color: colors.white,
-        width: '100%',
-        fontSize: 24,
-        fontFamily: fonts.text,
-    },
-    headerName: {
-        marginTop: -16,
-        color: colors.white,
-        width: '100%',
-        fontSize: 36,
-        fontFamily: fonts.title,
     },
     body: {
         width: '100%',
