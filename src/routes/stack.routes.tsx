@@ -1,7 +1,6 @@
 import React from 'react'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import { Homepage } from '../pages/Homepage'
 import { TourHome } from '../pages/TourHome'
 import { TourName } from '../pages/TourName'
 import { TourGender } from '../pages/TourGender'
@@ -10,7 +9,6 @@ import { TourPhoto } from '../pages/TourPhoto'
 import colors from '../styles/colors'
 import { TourDone } from '../pages/TourDone'
 import AuthRoutes from './tab.routes'
-import { WelcomeLoading } from '../pages/WelcomeLoading'
 
 const StackRoute = createStackNavigator()
 
@@ -23,11 +21,6 @@ const AppRoutes: React.FC = () => (
             },
         }}
     >
-
-        <StackRoute.Screen
-            name="Welcome"
-            component={WelcomeLoading}
-        />
 
         <StackRoute.Screen
             name="TourHome"

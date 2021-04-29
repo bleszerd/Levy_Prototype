@@ -5,6 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import { Homepage } from '../pages/Homepage'
 
 import colors from '../styles/colors'
+import { Profile } from '../pages/Profile'
 
 const TabRoute = createBottomTabNavigator()
 
@@ -12,7 +13,7 @@ const AuthRoutes: React.FC = () => (
     <TabRoute.Navigator
         tabBarOptions={{
             activeTintColor: colors.dark_orange,
-            inactiveTintColor: colors.soft_dark,
+            inactiveTintColor: colors.plate,
             style: {
                 backgroundColor: colors.dark_smoke,
                 borderTopWidth: 0,
@@ -42,7 +43,7 @@ const AuthRoutes: React.FC = () => (
 
         <TabRoute.Screen
             name="Profile"
-            component={Homepage}
+            component={Profile}
             options={{
                 tabBarIcon: ({ size, color }) => (
                     <Ionicons

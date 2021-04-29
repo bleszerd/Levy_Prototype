@@ -1,5 +1,6 @@
-import { DrawerActions, useNavigation, StackActions, NavigationAction } from '@react-navigation/core';
-import React, { useCallback, useEffect, useState } from 'react';
+import { useNavigation, StackActions } from '@react-navigation/core';
+import React, { useEffect, useState } from 'react';
+import * as SplashScreen from 'expo-splash-screen';
 import {
     View,
     SafeAreaView,
@@ -18,13 +19,40 @@ import { useUserTourInfo } from '../context/userTour';
 
 
 export function TourHome() {
+    const [appIsReady, setAppIsReady] = useState(false)
     const { userInfo, userInfoController } = useUserTourInfo()
 
     const navigation = useNavigation()
 
+    useEffect(() => {
+        async function fetchStoredData() {
+            const stringfiedData = await AsyncStorage.getItem("com.github.levy:userInfo")
+            if (stringfiedData) {
+                const userData = JSON.parse(stringfiedData)
+                userInfoController.updateUserInfo(userData)
+                navigation.dispatch(
+                    StackActions.replace('HandleDrawer')
+                )
+            } else {
+                navigation.navigate("TourHome")
+            }
+        }
+
+        async function prepareApp() {
+            await SplashScreen.preventAutoHideAsync()
+            await fetchStoredData()
+            setAppIsReady(true)
+        }
+
+        prepareApp()
+    }, [])
+
     function handleStart() {
         navigation.navigate("TourName")
     }
+
+    if (!appIsReady)
+        return null
 
     return (
         <SafeAreaView style={styles.container}>
