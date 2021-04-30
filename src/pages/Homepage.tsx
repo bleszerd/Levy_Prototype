@@ -1,11 +1,17 @@
 import React, { useEffect } from 'react'
-import { Text, SafeAreaView, View, StyleSheet } from "react-native";
-import { ScrollView } from 'react-native-gesture-handler';
+import {
+    Text,
+    SafeAreaView,
+    View,
+    StyleSheet,
+    ImageBackground
+} from "react-native";
+import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { API } from '../services/api'
 
 import BackgroundWaveEffect from '../components/assets/BackgroundWaveEffect'
 import { UserProfileHeader } from '../components/UserProfileHeader';
-import { VerticalScrollableView } from '../components/VerticalScrollableView';
+import { HorizontalScrollableView } from '../components/HorizontalScrollableView';
 import { useUserTourInfo } from '../context/userTour';
 
 import colors from '../styles/colors';
@@ -13,6 +19,7 @@ import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
 
 import productData from '../services/data'
+import data from '../services/data';
 
 export function Homepage() {
     const { userInfo, userInfoController } = useUserTourInfo()
@@ -44,16 +51,57 @@ export function Homepage() {
 
                 <View style={styles.body}>
 
-                    <View style={styles.recentProductsContainer}>
+                    <View style={styles.productsContainer}>
                         <Text style={styles.scrollableLabel}>
                             Anunciados recentemente
                         </Text>
-                        
-                        <VerticalScrollableView
+
+                        <HorizontalScrollableView
                             data={productData.new_products}
                         />
                     </View>
 
+                    <View style={styles.productsContainer}>
+                        <Text style={styles.scrollableLabel}>
+                            Vistos anteriormente
+                        </Text>
+
+                        <HorizontalScrollableView
+                            data={productData.new_products}
+                        />
+                    </View>
+                </View>
+
+                <View style={styles.featuredProductContainer}>
+                    <Text style={styles.scrollableLabel}>
+                        Produtos em destaque
+                    </Text>
+
+                    <FlatList
+                        data={data.featured_products}
+                        style={styles.featuredProduct}
+                        renderItem={({ item, index }) => (
+                            <ImageBackground style={[
+                                styles.featuredImage,
+                                index == 0 && {
+                                    marginLeft: dimensions.window.width * .02,
+                                },
+                                index == data.featured_products.length - 1 && {
+                                    marginRight: dimensions.window.width * .02,
+                                }
+                            ]}
+                                source={{
+                                    uri: item.productData.image
+                                }}
+                                borderRadius={dimensions.screen.width * .01}
+                            >
+                                {/*Inside the image*/}
+                            </ImageBackground>
+                        )}
+                        keyExtractor={(item) => item.id}
+                        horizontal
+                        showsHorizontalScrollIndicator={false}
+                    />
                 </View>
 
             </ScrollView>
@@ -87,7 +135,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
     },
-    recentProductsContainer: {
+    productsContainer: {
 
     },
     scrollableLabel: {
@@ -98,5 +146,23 @@ const styles = StyleSheet.create({
         textAlign: 'left',
         paddingHorizontal: dimensions.screen.width * .06,
         marginTop: 6,
-    }
+        textShadowOffset: {
+            height: 1,
+            width: 1,
+        },
+        textShadowColor: "rgba(0, 0, 0, .6)",
+        textShadowRadius: 6
+    },
+    featuredProductContainer: {
+        marginBottom: 10,
+    },
+    featuredProduct: {
+
+    },
+    featuredImage: {
+        marginTop: 6,
+        marginRight: 8,
+        width: dimensions.screen.width * .9,
+        height: dimensions.screen.width * .9,
+    },
 })

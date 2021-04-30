@@ -6,6 +6,10 @@ import { Homepage } from '../pages/Homepage'
 
 import colors from '../styles/colors'
 import { Profile } from '../pages/Profile'
+import ButtonNavigation from '../components/assets/ButtonNavigation'
+import { View } from 'react-native'
+import dimensions from '../styles/dimensions'
+import { AddProduct } from '../pages/AddProduct'
 
 const TabRoute = createBottomTabNavigator()
 
@@ -37,6 +41,24 @@ const AuthRoutes: React.FC = () => (
                         size={size}
                         color={color}
                     />
+                )
+            }}
+        />
+
+        <TabRoute.Screen
+            name="AddProduct"
+            component={AddProduct}
+            options={{
+                tabBarIcon: ({ focused }) => (
+                    <View style={{
+                        marginBottom: 40,
+                    }}
+                    >
+                        <ButtonNavigation
+                            active={focused}
+                            width={dimensions.screen.width * .2}
+                        />
+                    </View>
                 )
             }}
         />

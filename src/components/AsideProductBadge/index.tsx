@@ -12,6 +12,7 @@ interface AsideProductBadgeProps {
         component: any
         name: string
         color?: string
+        size: number
     }
     text: string
 }
@@ -20,9 +21,15 @@ export function AsideProductBadge({ icon: Icon, text }: AsideProductBadgeProps) 
     return (
         <View style={styles.container}>
             <Icon.component
-                style={styles.icon}
+                style={[
+                    styles.icon,
+                    Icon.color && {
+                        color: Icon.color
+                    },
+                    
+                ]}
                 name={Icon.name}
-                size={32}
+                size={Icon.size}
             />
             <Text style={styles.text}>
                 {text}
@@ -33,9 +40,7 @@ export function AsideProductBadge({ icon: Icon, text }: AsideProductBadgeProps) 
 
 const styles = StyleSheet.create({
     container: {
-        position: 'absolute',
-        top: '3%',
-        right: '3%',
+        marginBottom: 6,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors.soft_dark,
@@ -53,6 +58,6 @@ const styles = StyleSheet.create({
     },
     text: {
         color: colors.white,
-        fontFamily: fonts.text
+        fontFamily: fonts.text,
     }
 })

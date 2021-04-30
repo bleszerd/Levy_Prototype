@@ -1,38 +1,23 @@
-import React from 'react'
-import { SafeAreaView, View, StyleSheet, Alert, BackHandler } from "react-native";
+import React from 'react';
+import {
+    Alert,
+    StyleSheet,
+    View
+} from 'react-native'
 import { ScrollView } from 'react-native-gesture-handler';
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import BackgroundWaveEffect from '../components/assets/BackgroundWaveEffect'
 import { Button } from '../components/Button';
 import { UserProfileHeader } from '../components/UserProfileHeader';
 import { useUserTourInfo } from '../context/userTour';
-
 import dimensions from '../styles/dimensions';
-import { StackActions, useNavigation } from '@react-navigation/core';
 
-export function Profile() {
-    const { userInfo, userInfoController } = useUserTourInfo()
+export function AddProduct() {
+    const { userInfo } = useUserTourInfo()
 
-    const navigation = useNavigation()
-
-    async function clearUserData() {
-        Alert.alert(
-            'Limpar dados e sair do aplicativo?',
-            '',
-            [
-                { text: 'Não', style: 'cancel' },
-                {
-                    text: 'Sim', onPress: async () => {
-                        await AsyncStorage.removeItem("com.github.levy:userInfo")
-                        navigation.dispatch(
-                            StackActions.replace("TourHome")
-                        )
-                    }
-                },
-            ],
-            { cancelable: false }
-        )
+    function addProduct() {
+        Alert.alert("Nada por aqui")
     }
 
     return (
@@ -53,8 +38,8 @@ export function Profile() {
 
                 <View style={styles.buttonContainer}>
                     <Button
-                        onPress={clearUserData}
-                        text="Limpar dados"
+                        onPress={addProduct}
+                        text="Adicionar um produto."
                     />
                 </View>
             </ScrollView>

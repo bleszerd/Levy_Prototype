@@ -35,7 +35,6 @@ export function TourHome() {
                 )
             } else {
                 setAppIsReady(true)
-
             }
         }
 
