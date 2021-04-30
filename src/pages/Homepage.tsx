@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Text, SafeAreaView, View, StyleSheet } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
+import { API } from '../services/api'
 
 import BackgroundWaveEffect from '../components/assets/BackgroundWaveEffect'
 import { UserProfileHeader } from '../components/UserProfileHeader';
@@ -11,8 +12,19 @@ import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
 
+import productData from '../services/data'
+
 export function Homepage() {
     const { userInfo, userInfoController } = useUserTourInfo()
+
+    useEffect(() => {
+        // async function fetchProducts() {
+        //     const productsResponse = await API.get("/new_products")
+        //     console.log(productsResponse);
+        // }
+
+        // fetchProducts()
+    }, [])
 
     return (
         <SafeAreaView style={styles.container}>
@@ -31,30 +43,19 @@ export function Homepage() {
                 </View>
 
                 <View style={styles.body}>
-                    <Text style={{
-                        fontFamily: fonts.text,
-                        color: colors.plate,
-                        width: '100%',
-                        textAlign: 'left',
-                        paddingHorizontal: dimensions.screen.width * .06,
-                        marginTop: 6,
-                    }}>
-                        Anunciados recentemente
-                    </Text>
-                    <VerticalScrollableView />
 
-                    <Text style={{
-                        fontFamily: fonts.text,
-                        color: colors.plate,
-                        width: '100%',
-                        textAlign: 'left',
-                        paddingHorizontal: dimensions.screen.width * .06,
-                        marginTop: 6,
-                    }}>
-                        Em destaque
-                    </Text>
-                    <VerticalScrollableView />
+                    <View style={styles.recentProductsContainer}>
+                        <Text style={styles.scrollableLabel}>
+                            Anunciados recentemente
+                        </Text>
+                        
+                        <VerticalScrollableView
+                            data={productData.new_products}
+                        />
+                    </View>
+
                 </View>
+
             </ScrollView>
         </SafeAreaView>
     )
@@ -86,4 +87,16 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flex: 1,
     },
+    recentProductsContainer: {
+
+    },
+    scrollableLabel: {
+        fontFamily: fonts.text,
+        color: colors.white,
+        elevation: 4,
+        width: '100%',
+        textAlign: 'left',
+        paddingHorizontal: dimensions.screen.width * .06,
+        marginTop: 6,
+    }
 })

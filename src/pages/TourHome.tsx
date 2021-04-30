@@ -34,14 +34,14 @@ export function TourHome() {
                     StackActions.replace('HandleDrawer')
                 )
             } else {
-                navigation.navigate("TourHome")
+                setAppIsReady(true)
+
             }
         }
 
         async function prepareApp() {
             await SplashScreen.preventAutoHideAsync()
             await fetchStoredData()
-            setAppIsReady(true)
         }
 
         prepareApp()

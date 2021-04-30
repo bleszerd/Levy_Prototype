@@ -4,64 +4,74 @@ import {
     Text,
     StyleSheet,
     FlatList,
+    ImageBackground,
+    Alert,
 } from 'react-native'
+import { MaterialCommunityIcons } from '@expo/vector-icons'
 
 import colors from '../../styles/colors';
 import dimensions from '../../styles/dimensions';
 import fonts from '../../styles/fonts';
+import { AsideProductBadge } from '../AsideProductBadge';
+import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
-const flatData = [
-    {
-        id: 1,
-        text: "product 01"
+interface Product {
+    id: string
+    key: string
+    title: string
+    seller: {
+        id: string
     },
-    {
-        id: 2,
-        text: "product 02"
-    },
-    {
-        id: 3,
-        text: "product 03"
-    },
-    {
-        id: 4,
-        text: "product 04"
-    },
-    {
-        id: 5,
-        text: "product 05"
-    },
-    {
-        id: 6,
-        text: "product 06"
-    },
-    {
-        id: 7,
-        text: "product 07"
-    },
-    {
-        id: 8,
-        text: "product 08"
-    },
+    productData: {
+        category: string
+        description: string
+        image: string
+    }
+}
 
-]
+interface VerticalProductScrollableView {
+    data: Product[]
+}
 
-export function VerticalScrollableView() {
+export function VerticalScrollableView({ data }: VerticalProductScrollableView) {
     return (
         <View style={styles.flatContainer}>
-            <FlatList style={styles.container}
-                data={flatData}
-                renderItem={({ item }) => (
-                    <View style={styles.product}>
-                        <Text style={styles.text}>
-                            {item.text}
-                        </Text>
-                    </View>
-                )}
-                keyExtractor={item => item.id.toString()}
-                horizontal
-                showsHorizontalScrollIndicator={false}
-            />
+            <TouchableWithoutFeedback style={styles.flatContainer}
+                onPress={() => {
+                    Alert.alert("Ainda não tem nada aqui :)")
+                }}
+            >
+                <FlatList style={styles.container}
+                    data={data}
+                    renderItem={({ item, index }) => (
+                        <ImageBackground style={[
+                            styles.product,
+                            index == 0 && {
+                                marginLeft: dimensions.window.width * .04,
+                            },
+                            index == data.length - 1 && {
+                                marginRight: dimensions.window.width * .03,
+                            }
+                        ]}
+                            source={{
+                                uri: item.productData.image
+                            }}
+                            borderRadius={dimensions.screen.width * .01}
+                        >
+                            <AsideProductBadge
+                                icon={{
+                                    component: MaterialCommunityIcons,
+                                    name: "currency-usd"
+                                }}
+                                text="125,00"
+                            />
+                        </ImageBackground>
+                    )}
+                    keyExtractor={item => item.id.toString()}
+                    horizontal
+                    showsHorizontalScrollIndicator={false}
+                />
+            </TouchableWithoutFeedback>
         </View>
     )
 }
@@ -79,12 +89,13 @@ const styles = StyleSheet.create({
         width: dimensions.screen.width * .55,
         flex: 1,
         marginHorizontal: dimensions.window.width * .01,
-        borderRadius: dimensions.screen.width * .02,
         backgroundColor: colors.soft_dark,
         justifyContent: 'center',
         alignItems: 'center',
+        borderRadius: dimensions.screen.width * .01,
     },
     text: {
+        textAlign: 'center',
         color: colors.white,
         fontFamily: fonts.title,
     }
