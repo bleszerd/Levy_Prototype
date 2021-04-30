@@ -7,7 +7,7 @@ import {
     ImageBackground,
     Alert,
 } from 'react-native'
-import { MaterialCommunityIcons } from '@expo/vector-icons'
+import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 
 import colors from '../../styles/colors';
 import dimensions from '../../styles/dimensions';
@@ -29,11 +29,11 @@ interface Product {
     }
 }
 
-interface VerticalProductScrollableView {
+interface HorizontalProductScrollableView {
     data: Product[]
 }
 
-export function VerticalScrollableView({ data }: VerticalProductScrollableView) {
+export function HorizontalScrollableView({ data }: HorizontalProductScrollableView) {
     return (
         <View style={styles.flatContainer}>
             <TouchableWithoutFeedback style={styles.flatContainer}
@@ -58,13 +58,27 @@ export function VerticalScrollableView({ data }: VerticalProductScrollableView) 
                             }}
                             borderRadius={dimensions.screen.width * .01}
                         >
-                            <AsideProductBadge
-                                icon={{
-                                    component: MaterialCommunityIcons,
-                                    name: "currency-usd"
-                                }}
-                                text="125,00"
-                            />
+                            <View style={styles.bagdesSection}>
+                                <AsideProductBadge
+                                    icon={{
+                                        component: MaterialCommunityIcons,
+                                        name: "currency-usd",
+                                        color: colors.success,
+                                        size: 32
+                                    }}
+                                    text="125,00"
+                                />
+
+                                <AsideProductBadge
+                                    icon={{
+                                        component: FontAwesome5,
+                                        name: "box-open",
+                                        color: colors.brown,
+                                        size: 21
+                                    }}
+                                    text="Usado"
+                                />
+                            </View>
                         </ImageBackground>
                     )}
                     keyExtractor={item => item.id.toString()}
@@ -84,6 +98,12 @@ const styles = StyleSheet.create({
     },
     container: {
         flexDirection: 'row',
+    },
+    bagdesSection: {
+        flex: 1,
+        position: 'absolute',
+        right: dimensions.window.width * .015,
+        top: dimensions.window.width * .015,
     },
     product: {
         width: dimensions.screen.width * .55,

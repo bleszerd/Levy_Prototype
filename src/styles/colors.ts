@@ -14,4 +14,6 @@ export default {
     error: "#D82C22",
     dark_error: "#9c1008",
     warning: "#DBB12C",
+
+    brown: "#d17b52",
 }
