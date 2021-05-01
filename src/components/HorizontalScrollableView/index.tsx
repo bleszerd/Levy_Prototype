@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import {
     View,
-    Text,
     StyleSheet,
     FlatList,
     ImageBackground,
     Alert,
+    TouchableWithoutFeedback
 } from 'react-native'
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 
@@ -13,7 +13,6 @@ import colors from '../../styles/colors';
 import dimensions from '../../styles/dimensions';
 import fonts from '../../styles/fonts';
 import { AsideProductBadge } from '../AsideProductBadge';
-import { TouchableWithoutFeedback } from 'react-native-gesture-handler';
 
 interface Product {
     id: string
@@ -31,15 +30,16 @@ interface Product {
 
 interface HorizontalProductScrollableView {
     data: Product[]
+    onPressNavigationComponent?: () => void
 }
 
-export function HorizontalScrollableView({ data }: HorizontalProductScrollableView) {
+export function HorizontalScrollableView({ data, onPressNavigationComponent }: HorizontalProductScrollableView) {
+
     return (
         <View style={styles.flatContainer}>
             <TouchableWithoutFeedback style={styles.flatContainer}
-                onPress={() => {
-                    Alert.alert("Ainda não tem nada aqui :)")
-                }}
+                /*Navigate to stack again*/
+                onPress={onPressNavigationComponent}
             >
                 <FlatList style={styles.container}
                     data={data}
@@ -47,10 +47,10 @@ export function HorizontalScrollableView({ data }: HorizontalProductScrollableVi
                         <ImageBackground style={[
                             styles.product,
                             index == 0 && {
-                                marginLeft: dimensions.window.width * .04,
+                                marginLeft: dimensions.window.width * .02,
                             },
                             index == data.length - 1 && {
-                                marginRight: dimensions.window.width * .03,
+                                marginRight: dimensions.window.width * .02,
                             }
                         ]}
                             source={{

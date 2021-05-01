@@ -1,4 +1,4 @@
-import { useNavigation } from '@react-navigation/core';
+import { StackActions, useNavigation } from '@react-navigation/core';
 import React from 'react';
 import {
     View,
@@ -30,7 +30,8 @@ export function TourDone() {
 
     async function handleDoneTour() {
         await saveUserInfoOnAsyncStorage()
-        navigation.navigate("HandleDrawer")
+        navigation.dispatch(StackActions.popToTop())
+        navigation.dispatch(StackActions.replace("TabRoutes"))
     }
 
     return (

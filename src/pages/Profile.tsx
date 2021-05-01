@@ -1,15 +1,15 @@
 import React from 'react'
-import { SafeAreaView, View, StyleSheet, Alert, BackHandler } from "react-native";
+import { SafeAreaView, View, StyleSheet, Alert, BackHandler, ImageBackground } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
-import BackgroundWaveEffect from '../components/assets/BackgroundWaveEffect'
 import { Button } from '../components/Button';
 import { UserProfileHeader } from '../components/UserProfileHeader';
 import { useUserTourInfo } from '../context/userTour';
 
 import dimensions from '../styles/dimensions';
 import { StackActions, useNavigation } from '@react-navigation/core';
+import wavebackground from '../static_assets/wavebackground.png'
 
 export function Profile() {
     const { userInfo, userInfoController } = useUserTourInfo()
@@ -37,28 +37,27 @@ export function Profile() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.waveContainer}>
-                <BackgroundWaveEffect
-                    width={dimensions.screen.width}
-                />
-            </View>
+            <ImageBackground
+                source={wavebackground}
+                style={styles.wave}
+            >
 
-            <ScrollView style={styles.scrollContainer}>
-                <View style={styles.header}>
-                    <UserProfileHeader
-                        subLabel="Olá,"
-                        asidePhoto={userInfo.photo}
-                    />
-                </View>
+                <ScrollView style={styles.scrollContainer}>
+                    <View style={styles.header}>
+                        <UserProfileHeader
+                            subLabel="Olá,"
+                            asidePhoto={userInfo.photo}
+                        />
+                    </View>
 
-                <View style={styles.buttonContainer}>
-                    <Button
-                        onPress={clearUserData}
-                        text="Limpar dados"
-                    />
-                </View>
-            </ScrollView>
-
+                    <View style={styles.buttonContainer}>
+                        <Button
+                            onPress={clearUserData}
+                            text="Limpar dados"
+                        />
+                    </View>
+                </ScrollView>
+            </ImageBackground>
         </SafeAreaView>
     )
 }
@@ -67,11 +66,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    waveContainer: {
-        position: 'absolute',
-        flex: 1,
-        left: 0,
-        bottom: - dimensions.screen.height * .6,
+    wave:{
+        flex: 1
     },
     header: {
         marginTop: dimensions.window.height * 0.05,

@@ -1,18 +1,15 @@
 import React from 'react';
-import { NavigationContainer } from '@react-navigation/native'
-
-import StackRoutes from './stack.routes'
+import { NavigationContainer, TabRouter } from '@react-navigation/native'
+import ApplicationRoutes from './routes'
 
 import UserTourContextProvider from '../context/userTour'
 
-const Routes = () => {
+export default function Routes() {
     return (
         <UserTourContextProvider>
             <NavigationContainer>
-                <StackRoutes />
+                <ApplicationRoutes />
             </NavigationContainer>
         </UserTourContextProvider>
     )
 }
-
-export default Routes

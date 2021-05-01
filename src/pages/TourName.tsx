@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigation } from '@react-navigation/core';
 import {
     View,
     SafeAreaView,
@@ -10,11 +9,13 @@ import {
     TouchableWithoutFeedback,
     Keyboard
 } from 'react-native'
-import { hasAnyExplicityWords } from '../utils/text';
+import { useNavigation } from '@react-navigation/core';
+import { validateName } from '../utils/text';
 import { useUserTourInfo } from '../context/userTour';
 
-import BuildingProfileImage from '../components/assets/BuildingProfileImage'
+
 import { Button } from '../components/Button';
+import BuildingProfileImage from '../components/assets/BuildingProfileImage'
 
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
@@ -22,7 +23,7 @@ import fonts from '../styles/fonts';
 
 export function TourName() {
     const [name, setName] = useState<string>("")
-    const [subtitleMsg, setSubtitleMsg] = useState("")
+    const [subtitleMsg, setSubtitleMsg] = useState("Me diga seu nome")
 
     const [inputIsFocused, setInputIsFocused] = useState(false)
     const [nameIsValid, setNameIsValid] = useState(false)
@@ -32,11 +33,15 @@ export function TourName() {
 
     //Input name validation
     useEffect(() => {
-        if ((!!name && name?.length >= 3) && !hasAnyExplicityWords(name)) {
-            setNameIsValid(true)
-        } else {
+        if (!validateName(name)) {
+            if (name != '')
+                setSubtitleMsg("Hmmm, escolha um nome mais legal...")
+            else
+                setSubtitleMsg("Me diga seu nome")
+
             setNameIsValid(false)
-            name != "" ? setSubtitleMsg("Hmmm, vamos tentar um nome mais legal...") : setSubtitleMsg("Me diga seu nome")
+        } else {
+            setNameIsValid(true)
         }
     }, [name])
 
@@ -62,7 +67,7 @@ export function TourName() {
             ...userInfo,
             name
         })
-        
+
         navigation.navigate("TourGender")
     }
 

@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
         borderTopWidth: .1,
         borderLeftWidth: .1,
         borderRightWidth: .1,
+        elevation: 12,
     },
     text: {
         marginTop: 6,

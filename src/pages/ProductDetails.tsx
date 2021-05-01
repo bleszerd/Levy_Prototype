@@ -1,25 +1,18 @@
 import React from 'react';
 import {
-    Alert,
+    ScrollView,
+    View,
     ImageBackground,
     StyleSheet,
-    View
 } from 'react-native'
-import { ScrollView } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
-
-import { Button } from '../components/Button';
 import { UserProfileHeader } from '../components/UserProfileHeader';
 import { useUserTourInfo } from '../context/userTour';
-import dimensions from '../styles/dimensions';
 import wavebackground from '../static_assets/wavebackground.png'
+import dimensions from '../styles/dimensions';
 
-export function AddProduct() {
+export function ProductDetails() {
     const { userInfo } = useUserTourInfo()
-
-    function addProduct() {
-        Alert.alert("Nada por aqui")
-    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -35,13 +28,6 @@ export function AddProduct() {
                             asidePhoto={userInfo.photo}
                         />
                     </View>
-
-                    <View style={styles.buttonContainer}>
-                        <Button
-                            onPress={addProduct}
-                            text="Adicionar um produto."
-                        />
-                    </View>
                 </ScrollView>
             </ImageBackground>
         </SafeAreaView>
@@ -52,14 +38,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    waveContainer: {
-        position: 'absolute',
-        flex: 1,
-        left: 0,
-        bottom: - dimensions.screen.height * .6,
-    },
     wave: {
-        flex: 1,
+        flex: 1
     },
     header: {
         marginTop: dimensions.window.height * 0.05,
@@ -72,9 +52,4 @@ const styles = StyleSheet.create({
     scrollContainer: {
         flex: 1,
     },
-    buttonContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingHorizontal: dimensions.window.width * 0.04
-    }
 })

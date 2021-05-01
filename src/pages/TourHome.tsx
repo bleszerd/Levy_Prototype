@@ -1,13 +1,13 @@
-import { useNavigation, StackActions } from '@react-navigation/core';
 import React, { useEffect, useState } from 'react';
-import * as SplashScreen from 'expo-splash-screen';
 import {
     View,
     SafeAreaView,
     Text,
     StyleSheet,
 } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StackActions, useNavigation } from '@react-navigation/core';
+import asyncStorage from '@react-native-async-storage/async-storage'
+import splashScreen from 'expo-splash-screen'
 
 import Logo from '../components/assets/Logo'
 import { Button } from '../components/Button';
@@ -15,43 +15,41 @@ import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
-import { useUserTourInfo } from '../context/userTour';
-
+import { UserTourInfo, useUserTourInfo } from '../context/userTour';
 
 export function TourHome() {
     const [appIsReady, setAppIsReady] = useState(false)
     const { userInfo, userInfoController } = useUserTourInfo()
-
     const navigation = useNavigation()
 
     useEffect(() => {
-        async function fetchStoredData() {
-            const stringfiedData = await AsyncStorage.getItem("com.github.levy:userInfo")
-            if (stringfiedData) {
-                const userData = JSON.parse(stringfiedData)
-                userInfoController.updateUserInfo(userData)
-                navigation.dispatch(
-                    StackActions.replace('HandleDrawer')
-                )
-            } else {
-                setAppIsReady(true)
-            }
-        }
-
-        async function prepareApp() {
-            await SplashScreen.preventAutoHideAsync()
-            await fetchStoredData()
-        }
-
-        prepareApp()
+        handleAppStart()
     }, [])
 
-    function handleStart() {
+    //Start app lifecycle
+    async function handleAppStart() {
+        const stringfiedData = await asyncStorage.getItem("com.github.levy:userInfo")
+
+        stringfiedData
+            ? updateUserInfoAndRedirect(stringfiedData)
+            : setAppIsReady(true)
+    }
+
+    //Set context data and navigate to Homespage
+    function updateUserInfoAndRedirect(stringfiedData: string) {
+        userInfoController.updateUserInfo(JSON.parse(stringfiedData))
+        navigation.dispatch(StackActions.replace("TabRoutes"))
+    }
+
+    //Navigate to next screen
+    function handleStartTour() {
         navigation.navigate("TourName")
     }
 
-    if (!appIsReady)
-        return null
+    //Wait app ready true state
+    if (!appIsReady) {
+        return <Text style={{color: colors.warning}}>Loading</Text>
+    }
 
     return (
         <SafeAreaView style={styles.container}>
@@ -78,7 +76,7 @@ export function TourHome() {
             <View style={styles.button}>
                 <Button
                     text="Vamos começar"
-                    onPress={handleStart}
+                    onPress={handleStartTour}
                 />
             </View>
         </SafeAreaView>

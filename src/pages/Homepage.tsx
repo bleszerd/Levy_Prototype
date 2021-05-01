@@ -4,15 +4,16 @@ import {
     SafeAreaView,
     View,
     StyleSheet,
-    ImageBackground
+    ImageBackground,
 } from "react-native";
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 import { API } from '../services/api'
+import wavebackground from '../static_assets/wavebackground.png'
 
-import BackgroundWaveEffect from '../components/assets/BackgroundWaveEffect'
 import { UserProfileHeader } from '../components/UserProfileHeader';
 import { HorizontalScrollableView } from '../components/HorizontalScrollableView';
 import { useUserTourInfo } from '../context/userTour';
+import { ProductDetails } from './ProductDetails'
 
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
@@ -21,8 +22,25 @@ import fonts from '../styles/fonts';
 import productData from '../services/data'
 import data from '../services/data';
 
+import { createStackNavigator } from '@react-navigation/stack'
+import { useNavigation } from '@react-navigation/core';
+
+const StackRoutes = createStackNavigator()
+
+function StackDetails() {
+    return (
+        <StackRoutes.Navigator>
+            <StackRoutes.Screen
+                name="details"
+                component={ProductDetails}
+            />
+        </StackRoutes.Navigator>
+    )
+}
+
 export function Homepage() {
     const { userInfo, userInfoController } = useUserTourInfo()
+    const navigation = useNavigation()
 
     useEffect(() => {
         // async function fetchProducts() {
@@ -35,76 +53,80 @@ export function Homepage() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <View style={styles.waveContainer}>
-                <BackgroundWaveEffect
-                    width={dimensions.screen.width}
-                />
-            </View>
-
-            <ScrollView style={styles.scrollContainer}>
-                <View style={styles.header}>
-                    <UserProfileHeader
-                        subLabel="Olá,"
-                        asidePhoto={userInfo.photo}
-                    />
-                </View>
-
-                <View style={styles.body}>
-
-                    <View style={styles.productsContainer}>
-                        <Text style={styles.scrollableLabel}>
-                            Anunciados recentemente
-                        </Text>
-
-                        <HorizontalScrollableView
-                            data={productData.new_products}
+            <ImageBackground
+                source={wavebackground}
+                style={styles.wave}
+            >
+                <ScrollView style={styles.scrollContainer}>
+                    <View style={styles.header}>
+                        <UserProfileHeader
+                            subLabel="Olá,"
+                            asidePhoto={userInfo.photo}
                         />
                     </View>
 
-                    <View style={styles.productsContainer}>
-                        <Text style={styles.scrollableLabel}>
-                            Vistos anteriormente
-                        </Text>
+                    <View style={styles.body}>
 
-                        <HorizontalScrollableView
-                            data={productData.new_products}
-                        />
-                    </View>
-                </View>
+                        <View style={styles.productsContainer}>
+                            <Text style={styles.scrollableLabel}>
+                                Anunciados recentemente
+                            </Text>
 
-                <View style={styles.featuredProductContainer}>
-                    <Text style={styles.scrollableLabel}>
-                        Produtos em destaque
-                    </Text>
+                            <HorizontalScrollableView
+                                data={productData.new_products}
+                                /*Handle navigation by this function*/
+                                onPressNavigationComponent={() => {
 
-                    <FlatList
-                        data={data.featured_products}
-                        style={styles.featuredProduct}
-                        renderItem={({ item, index }) => (
-                            <ImageBackground style={[
-                                styles.featuredImage,
-                                index == 0 && {
-                                    marginLeft: dimensions.window.width * .02,
-                                },
-                                index == data.featured_products.length - 1 && {
-                                    marginRight: dimensions.window.width * .02,
-                                }
-                            ]}
-                                source={{
-                                    uri: item.productData.image
                                 }}
-                                borderRadius={dimensions.screen.width * .01}
-                            >
-                                {/*Inside the image*/}
-                            </ImageBackground>
-                        )}
-                        keyExtractor={(item) => item.id}
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                    />
-                </View>
+                            />
+                        </View>
 
-            </ScrollView>
+                        <View style={styles.productsContainer}>
+                            <Text style={styles.scrollableLabel}>
+                                Vistos anteriormente
+                        </Text>
+
+                            <HorizontalScrollableView
+                                data={productData.new_products}
+                            />
+                        </View>
+                    </View>
+
+                    <View style={styles.featuredProductContainer}>
+                        <Text style={styles.scrollableLabel}>
+                            Produtos em destaque
+                        </Text>
+
+                        <FlatList
+                            data={data.featured_products}
+                            style={styles.featuredProduct}
+                            renderItem={({ item, index }) => (
+                                <ImageBackground style={[
+                                    styles.featuredImage,
+                                    index == 0 && {
+                                        marginLeft: dimensions.window.width * .02,
+                                    },
+                                    index == data.featured_products.length - 1 && {
+                                        marginRight: dimensions.window.width * .02,
+                                    }
+                                ]}
+                                    source={{
+                                        uri: item.productData.image
+                                    }}
+                                    borderRadius={dimensions.screen.width * .01}
+                                >
+
+                                    {/*Inside the image*/}
+                                </ImageBackground>
+                            )}
+                            keyExtractor={(item) => item.id}
+                            horizontal
+                            showsHorizontalScrollIndicator={false}
+                        />
+                    </View>
+
+                </ScrollView>
+            </ImageBackground>
         </SafeAreaView>
     )
 }
@@ -113,11 +135,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    waveContainer: {
-        position: 'absolute',
+    wave: {
         flex: 1,
-        left: 0,
-        bottom: - dimensions.screen.height * .6,
     },
     scrollContainer: {
         flex: 1,

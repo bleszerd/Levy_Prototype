@@ -51,25 +51,18 @@ export function TourPhoto() {
     }, [hasCameraPermission])
 
     function handleSkipPhoto() {
-        Alert.alert("Você pode fazer isso depois!", "", [
-            {
-                text: "Entendi",
-                onPress: () => {
-                    navigation.navigate("TourDone")
-                }
-            }
-        ])
+        navigation.navigate("TourDone")
     }
 
     function handleConfirmPhoto() {
-        if (base64Image) {
-            userInfoController.updateUserInfo({
-                ...userInfo,
-                photo: base64Image
-            })
+        // if (base64Image) {
+            // userInfoController.updateUserInfo({
+            //     ...userInfo,
+            //     photo: base64Image
+            // })
 
             navigation.navigate("TourDone")
-        }
+        // }
     }
 
     //Get photo from gallery
@@ -162,7 +155,7 @@ export function TourPhoto() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <UserProfileHeader 
+                <UserProfileHeader
                     subLabel="Quase lá,"
                 />
             </View>
@@ -217,7 +210,17 @@ export function TourPhoto() {
                 {
                     !!!base64Image
                         ? <TouchableWithoutFeedback
-                            onPress={handleSelectPhoto}
+                            onPress={() => {
+                                Alert.alert("Infelizmente estamos enfrentando problemas ao salvar a imagem.", "Tente mais tarde em um proxima versão do app. 😥", 
+                                [
+                                    {
+                                        text: "Continuar sem uma foto",
+                                        onPress: () => handleConfirmPhoto(),
+                                    }
+                                ]
+                                )
+                            }}
+                        // onPress={handleSelectPhoto}
                         >
                             <View style={styles.cameraButton}>
                                 <LottieView style={styles.cameraAnimation}
@@ -307,9 +310,9 @@ const styles = StyleSheet.create({
     selectModal: {
         justifyContent: 'space-around',
         alignItems: 'center',
-        backgroundColor: colors.soft_dark,
+        backgroundColor: colors.dark_smoke,
         width: dimensions.screen.width * .9,
-        height: dimensions.screen.height * .8,
+        height: dimensions.screen.height * .7,
         paddingTop: 32,
         paddingBottom: 48,
         paddingHorizontal: 16,

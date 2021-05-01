@@ -14,3 +14,11 @@ export function hasAnyExplicityWords(name: string, stringFilter: string[] = EXPL
     })
     return hasExplicityWord
 }
+
+export function validateName(name: string){
+    if ((!!name && name?.length >= 3) && !hasAnyExplicityWords(name)) {
+        return true
+    } else {
+        return false
+    }
+}
