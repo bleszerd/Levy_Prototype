@@ -34,7 +34,7 @@ export function UserProfileHeader(headerProps: UserProfileHeaderProps) {
                 </Text>
 
                 <Text style={styles.headerName}>
-                    {userInfo.name || headerProps.label}
+                    {headerProps.label || userInfo.name}
                 </Text>
             </View>
 
