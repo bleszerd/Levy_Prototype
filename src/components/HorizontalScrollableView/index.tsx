@@ -13,6 +13,7 @@ import colors from '../../styles/colors';
 import dimensions from '../../styles/dimensions';
 import fonts from '../../styles/fonts';
 import { AsideProductBadge } from '../AsideProductBadge';
+import { useNavigation } from '@react-navigation/core';
 
 interface Product {
     id: string
@@ -30,20 +31,19 @@ interface Product {
 
 interface HorizontalProductScrollableView {
     data: Product[]
-    onPressNavigationComponent?: () => void
+    onPress?: () => void
 }
 
-export function HorizontalScrollableView({ data, onPressNavigationComponent }: HorizontalProductScrollableView) {
-
+export function HorizontalScrollableView({ data, onPress }: HorizontalProductScrollableView) {
     return (
         <View style={styles.flatContainer}>
-            <TouchableWithoutFeedback style={styles.flatContainer}
-                /*Navigate to stack again*/
-                onPress={onPressNavigationComponent}
-            >
-                <FlatList style={styles.container}
-                    data={data}
-                    renderItem={({ item, index }) => (
+            <FlatList style={styles.container}
+                data={data}
+                renderItem={({ item, index }) => (
+                    <TouchableWithoutFeedback style={styles.flatContainer}
+                        /*Navigate to stack again*/
+                        onPress={onPress}
+                    >
                         <ImageBackground style={[
                             styles.product,
                             index == 0 && {
@@ -80,13 +80,13 @@ export function HorizontalScrollableView({ data, onPressNavigationComponent }: H
                                 />
                             </View>
                         </ImageBackground>
-                    )}
-                    keyExtractor={item => item.id.toString()}
-                    horizontal
-                    showsHorizontalScrollIndicator={false}
-                />
-            </TouchableWithoutFeedback>
-        </View>
+                    </TouchableWithoutFeedback>
+                )}
+                keyExtractor={item => item.id.toString()}
+                horizontal
+                showsHorizontalScrollIndicator={false}
+            />
+        </View >
     )
 }
 
@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
         height: dimensions.screen.height * .25,
         marginTop: 3,
         marginBottom: 6,
+        zIndex: 10,
     },
     container: {
         flexDirection: 'row',

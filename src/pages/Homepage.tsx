@@ -6,7 +6,7 @@ import {
     StyleSheet,
     ImageBackground,
 } from "react-native";
-import { FlatList, ScrollView } from 'react-native-gesture-handler';
+import { FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { API } from '../services/api'
 import wavebackground from '../static_assets/wavebackground.png'
 
@@ -51,6 +51,10 @@ export function Homepage() {
         // fetchProducts()
     }, [])
 
+    function navigateToProduct() {
+        navigation.navigate("ProductDetails")
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <ImageBackground
@@ -74,10 +78,7 @@ export function Homepage() {
 
                             <HorizontalScrollableView
                                 data={productData.new_products}
-                                /*Handle navigation by this function*/
-                                onPressNavigationComponent={() => {
-
-                                }}
+                                onPress={navigateToProduct}
                             />
                         </View>
 
@@ -88,6 +89,7 @@ export function Homepage() {
 
                             <HorizontalScrollableView
                                 data={productData.new_products}
+                                onPress={navigateToProduct}
                             />
                         </View>
                     </View>
@@ -101,23 +103,27 @@ export function Homepage() {
                             data={data.featured_products}
                             style={styles.featuredProduct}
                             renderItem={({ item, index }) => (
-                                <ImageBackground style={[
-                                    styles.featuredImage,
-                                    index == 0 && {
-                                        marginLeft: dimensions.window.width * .02,
-                                    },
-                                    index == data.featured_products.length - 1 && {
-                                        marginRight: dimensions.window.width * .02,
-                                    }
-                                ]}
-                                    source={{
-                                        uri: item.productData.image
-                                    }}
-                                    borderRadius={dimensions.screen.width * .01}
+                                <TouchableWithoutFeedback
+                                    onPress={navigateToProduct}
                                 >
+                                    <ImageBackground style={[
+                                        styles.featuredImage,
+                                        index == 0 && {
+                                            marginLeft: dimensions.window.width * .02,
+                                        },
+                                        index == data.featured_products.length - 1 && {
+                                            marginRight: dimensions.window.width * .02,
+                                        }
+                                    ]}
+                                        source={{
+                                            uri: item.productData.image
+                                        }}
+                                        borderRadius={dimensions.screen.width * .01}
+                                    >
 
-                                    {/*Inside the image*/}
-                                </ImageBackground>
+                                        {/*Inside the image*/}
+                                    </ImageBackground>
+                                </TouchableWithoutFeedback >
                             )}
                             keyExtractor={(item) => item.id}
                             horizontal
