@@ -12,6 +12,7 @@ export default {
     dark_smoke: "#1F1A2E",
 
     success: "#04C485",
+    alt_success: "#04c44e",
     error: "#D82C22",
     dark_error: "#9c1008",
     warning: "#DBB12C",

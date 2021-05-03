@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     ScrollView,
     View,
@@ -9,17 +9,59 @@ import {
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useUserTourInfo } from '../context/userTour';
-import wavebackground from '../static_assets/wavebackground.png'
-import colors from '../styles/colors';
-import dimensions from '../styles/dimensions';
-import fonts from '../styles/fonts';
-import productData from '../services/data'
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { FlatList, RectButton, TouchableOpacity } from 'react-native-gesture-handler';
 
+import wavebackground from '../static_assets/wavebackground.png'
+import productData from '../services/data'
+
+import Rating from '../components/Rating';
+
+import colors from '../styles/colors';
+import dimensions from '../styles/dimensions';
+import fonts from '../styles/fonts';
+import data from '../services/data'
+
 export function ProductDetails() {
-    const { userInfo } = useUserTourInfo()
+    const [classifierSizes, setClassifierSizes] = useState<number[]>()
+    const [meanVotes, setMeanVotes] = useState<number | string>()
+    const [votes, setVotes] = useState<number>()
+
+    useEffect(() => {
+        calculateAverage()
+    }, [])
+
+    function calculateAverage() {
+        const averageRawValues = data.new_products[0].seller.classifierSizes
+        const averageSizes = []
+        const averageVotes = []
+        const meanVotesArr = []
+
+        let totalVotes = 0
+        let meanVotes = 0
+
+        for (let i = 0; i < averageRawValues.length; i++) {
+            averageSizes.push(averageRawValues[i])
+            meanVotesArr.push(averageRawValues[i] * (5 - i));
+        }
+
+        for (let i = 0; i < averageRawValues.length; i++) {
+            averageVotes.push(averageRawValues[i])
+        }
+
+        averageVotes.forEach(vote => {
+            totalVotes += vote
+        })
+
+        meanVotesArr.forEach(vote => {
+            meanVotes += vote
+        })
+
+        setClassifierSizes(averageSizes)
+        setMeanVotes((meanVotes / totalVotes).toFixed(1))
+        setVotes(totalVotes)
+    }
 
     function renderLeftContent() {
         return (
@@ -117,10 +159,9 @@ export function ProductDetails() {
                             </Text>
 
                             <Text style={styles.description}>
-                                Nada como uma boa noite de sono, certo? Com a cama casal colchão bombom duro bom para casais você se sente revigorado e pronto para o próximo dia.
+                                Nada como sentir seus pés tocando as nuvens, certo? O tênis K3By proporciona o melhor do conforto para quem te mantém em pé durante todo o dia.
                             </Text>
                         </View>
-
                     </View>
 
                     <Swipeable
@@ -128,24 +169,44 @@ export function ProductDetails() {
                         overshootLeft={false}
                     >
                         <View style={styles.sellerContainer}>
-                            <Image
-                                source={{
-                                    uri: "http://fecomercio-rs.org.br/wp-content/uploads/2020/03/iStock-623474880-scaled.jpg"
-                                }}
-                                style={styles.sellerImg}
-                                resizeMode="cover"
-                            />
+                            <View style={styles.leftContent}>
+                                <Image
+                                    source={{
+                                        uri: "http://fecomercio-rs.org.br/wp-content/uploads/2020/03/iStock-623474880-scaled.jpg"
+                                    }}
+                                    style={styles.sellerImg}
+                                    resizeMode="cover"
+                                />
+
+                                <View style={styles.averageClassifier}>
+                                    <MaterialCommunityIcons
+                                        name="star"
+                                        color={colors.warning}
+                                        size={36}
+                                    />
+                                    <Text style={styles.averageClassifierText}>
+                                        {meanVotes}
+                                    </Text>
+                                </View>
+                            </View>
 
                             <View style={styles.textSellerContainer}>
                                 <Text style={styles.sellerName}>
                                     Guilherme ferreira da Silva
                                 </Text>
-                                <Text style={styles.sellerClassifier}>
-                                    Bom vendedor
-                                </Text>
                                 <Text style={styles.sellerClassifierHint}>
-                                    com base em 126 avaliações
+                                    com base em {votes} avaliações
                                 </Text>
+
+                                <Rating
+                                    labels={[5, 4, 3, 2, 1]}
+                                    colors={[colors.alt_success, colors.success, colors.warning, colors.error, colors.dark_error]}
+                                    sizes={classifierSizes || []}
+                                    style={{
+                                        width: '92%',
+                                        alignSelf: 'flex-end'
+                                    }}
+                                />
                             </View>
                         </View>
                     </Swipeable>
@@ -206,7 +267,7 @@ const styles = StyleSheet.create({
         marginVertical: 8,
     },
     gallery: {
-        marginTop: 16,
+        marginTop: 8,
         height: dimensions.screen.width * .8,
         width: dimensions.screen.width * .8,
         marginHorizontal: 4,
@@ -237,17 +298,28 @@ const styles = StyleSheet.create({
     },
     sellerContainer: {
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
         backgroundColor: colors.dark,
         paddingVertical: 22,
         paddingHorizontal: 15,
         width: dimensions.screen.width,
         alignSelf: 'center',
     },
+    leftContent: {
+        alignItems: 'center',
+    },
     sellerImg: {
         width: dimensions.screen.width * .2,
         height: dimensions.screen.width * .2,
         borderRadius: dimensions.screen.width,
+    },
+    averageClassifier: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    averageClassifierText: {
+        color: colors.white,
     },
     textSellerContainer: {
         width: dimensions.screen.width * .75,
@@ -274,7 +346,6 @@ const styles = StyleSheet.create({
         marginTop: -8,
         textAlign: 'right',
     },
-
     sellerProfile: {
         width: dimensions.screen.width * .3,
         paddingHorizontal: 6,

@@ -4,7 +4,10 @@ export default {
       "id": "0",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "0" },
+      "seller": { 
+        "id": "0" ,
+        "classifierSizes": [132, 45, 8, 2, 23]
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -38,7 +41,10 @@ export default {
       "id": "1",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "1" },
+      "seller": { 
+        "id": "1" ,
+        "classifierSizes": [252, 124, 40, 29, 33],
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -72,7 +78,10 @@ export default {
       "id": "2",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "2" },
+      "seller": { 
+        "id": "2" ,
+        "classifierSizes": [252, 124, 40, 29, 33]
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -106,7 +115,10 @@ export default {
       "id": "3",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "3" },
+      "seller": { 
+        "id": "3" ,
+        "classifierSizes": [252, 124, 40, 29, 33]
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -140,7 +152,10 @@ export default {
       "id": "4",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "4" },
+      "seller": { 
+        "id": "4" ,
+        "classifierSizes": [252, 124, 40, 29, 33]
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -174,7 +189,10 @@ export default {
       "id": "5",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "5" },
+      "seller": { 
+        "id": "5" ,
+        "classifierSizes": [252, 124, 40, 29, 33]
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -208,7 +226,10 @@ export default {
       "id": "6",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "6" },
+      "seller": { 
+        "id": "6" ,
+        "classifierSizes": [252, 124, 40, 29, 33]
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -242,7 +263,10 @@ export default {
       "id": "7",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "7" },
+      "seller": { 
+        "id": "7" ,
+        "classifierSizes": [252, 124, 40, 29, 33]
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -276,7 +300,10 @@ export default {
       "id": "8",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "8" },
+      "seller": { 
+        "id": "8" ,
+        "classifierSizes": [252, 124, 40, 29, 33]
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -310,7 +337,10 @@ export default {
       "id": "9",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "9" },
+      "seller": { 
+        "id": "9" ,
+        "classifierSizes": [252, 124, 40, 29, 33]
+      },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -344,7 +374,10 @@ export default {
       "id": "10",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "10" },
+      "seller": { 
+        "id": "10",
+        "classifierSizes": [252, 124, 40, 29, 33]
+       },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -378,7 +411,10 @@ export default {
       "id": "11",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "11" },
+      "seller": { 
+        "id": "11",
+        "classifierSizes": [252, 124, 40, 29, 33]
+       },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -414,7 +450,10 @@ export default {
       "id": "11",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "11" },
+      "seller": { 
+        "id": "11",
+        "classifierSizes": [252, 124, 40, 29, 33]
+       },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
@@ -448,7 +487,10 @@ export default {
       "id": "12",
       "key": "clothing",
       "title": "Tênis Usado Marca K3By Branco em bom estado",
-      "seller": { "id": "12" },
+      "seller": { 
+        "id": "12",
+        "classifierSizes": [252, 124, 40, 29, 33]
+       },
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
