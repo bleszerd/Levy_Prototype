@@ -11,7 +11,7 @@ import {
 } from 'react-native'
 import { useNavigation } from '@react-navigation/core';
 import { validateName } from '../utils/text';
-import { useUserTourInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userTour';
 
 
 import { Button } from '../components/Button';
@@ -28,7 +28,7 @@ export function TourName() {
     const [inputIsFocused, setInputIsFocused] = useState(false)
     const [nameIsValid, setNameIsValid] = useState(false)
 
-    const { userInfo, userInfoController } = useUserTourInfo()
+    const { userInfo, userInfoController } = useUserInfo()
     const navigation = useNavigation()
 
     //Input name validation

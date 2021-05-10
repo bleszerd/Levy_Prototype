@@ -10,12 +10,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Button } from '../components/Button';
 import { UserProfileHeader } from '../components/UserProfileHeader';
-import { useUserTourInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userTour';
 import dimensions from '../styles/dimensions';
 import wavebackground from '../static_assets/wavebackground.png'
 
 export function AddProduct() {
-    const { userInfo } = useUserTourInfo()
+    const { userInfo } = useUserInfo()
 
     function addProduct() {
         Alert.alert("Nada por aqui")

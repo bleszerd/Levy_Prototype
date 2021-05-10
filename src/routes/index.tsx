@@ -2,14 +2,14 @@ import React from 'react';
 import { NavigationContainer, TabRouter } from '@react-navigation/native'
 import ApplicationRoutes from './routes'
 
-import UserTourContextProvider from '../context/userTour'
+import UserDataContextProvider from '../context/userTour'
 
 export default function Routes() {
     return (
-        <UserTourContextProvider>
+        <UserDataContextProvider>
             <NavigationContainer>
                 <ApplicationRoutes />
             </NavigationContainer>
-        </UserTourContextProvider>
+        </UserDataContextProvider>
     )
 }

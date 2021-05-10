@@ -1,7 +1,8 @@
 import React from 'react'
 import {
-    Text,
-    StatusBar
+    StatusBar,
+    View,
+    ActivityIndicator,
 } from 'react-native'
 import {
     useFonts,
@@ -9,8 +10,12 @@ import {
     Poppins_300Light,
     Poppins_800ExtraBold
 } from '@expo-google-fonts/poppins'
+import { initialize } from './src/services/database'
 
 import Routes from './src/routes'
+import colors from './src/styles/colors'
+
+initialize()
 
 export default function App() {
     const [fontsIsLoaded] = useFonts({
@@ -20,7 +25,16 @@ export default function App() {
     })
 
     if (!fontsIsLoaded)
-        return <Text>Loading</Text>
+        return <View style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+        }}>
+            <ActivityIndicator
+                size="large"
+                color={colors.orange}
+            />
+        </View>
 
     return (
         <>

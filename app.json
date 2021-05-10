@@ -30,7 +30,9 @@
       "favicon": "./assets/favicon.png"
     },
     "extra": {
-      "BASE_API_URI": "http://192.168.0.103:3333/"
+      "BASE_API_URI": "http://192.168.0.103:3333/",
+      "APP_ID": "dbxKj3w5Dh1FhVRCsszA2m0XgNeqbAhnHW6tn64k",
+      "JS_KEY": "Uhww0dUGwG2igBhfT1ppJBeaSK6DMI7a8ppVg3kq"
     },
     "description": ""
   }
