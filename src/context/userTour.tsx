@@ -4,34 +4,34 @@ import {
 } from 'react-native'
 import { Gender } from '../pages/TourGender';
 
-interface UserTourContext {
-    userInfo: UserTourInfo
+interface UserData {
+    userInfo: UserInfo
     userInfoController: {
-        updateUserInfo: (newUserInfo: UserTourInfo) => void
+        updateUserInfo: (newUserInfo: UserInfo) => void
     }
 }
 
-interface UserTourProps {
+interface UserProps {
     children: ReactNode
 }
 
-export interface UserTourInfo {
+export interface UserInfo {
     name?: string
     gender?: Gender
     photo?: string
 }
 
-const UserTourContext = createContext<UserTourContext>({} as UserTourContext)
+const UserData = createContext<UserData>({} as UserData)
 
-export default function UserTourProvider({ children }: UserTourProps) {
-    const [userInfo, setUserInfo] = useState<UserTourInfo>({} as UserTourInfo)
+export default function UserDataProvider({ children }: UserProps) {
+    const [userInfo, setUserInfo] = useState<UserInfo>({} as UserInfo)
 
-    function updateUserInfo(newUserInfo: UserTourInfo) {
+    function updateUserInfo(newUserInfo: UserInfo) {
         setUserInfo(newUserInfo)
     }
 
     return (
-        <UserTourContext.Provider
+        <UserData.Provider
             value={{
                 userInfo,
                 userInfoController: {
@@ -40,12 +40,12 @@ export default function UserTourProvider({ children }: UserTourProps) {
             }}
         >
             {children}
-        </UserTourContext.Provider>
+        </UserData.Provider>
     )
 }
 
-export function useUserTourInfo(){
-    const context = useContext(UserTourContext)
+export function useUserInfo(){
+    const context = useContext(UserData)
     const {userInfo, userInfoController} = context
     return {
         userInfo,
