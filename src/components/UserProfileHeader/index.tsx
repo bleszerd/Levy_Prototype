@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Image,
 } from 'react-native'
-import { useUserTourInfo } from '../../context/userTour'
+import { useUserInfo } from '../../context/userTour'
 
 import colors from '../../styles/colors'
 import dimensions from '../../styles/dimensions'
@@ -20,7 +20,7 @@ interface UserProfileHeaderProps {
 export function UserProfileHeader(headerProps: UserProfileHeaderProps) {
     const [base64Image, setBase64Image] = useState<string | Image | ReactNode>()
 
-    const { userInfo } = useUserTourInfo()
+    const { userInfo } = useUserInfo()
 
     useEffect(() => {
         setBase64Image(headerProps.asidePhoto)

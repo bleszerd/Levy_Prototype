@@ -9,10 +9,11 @@ import {
 import { FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { API } from '../services/api'
 import wavebackground from '../static_assets/wavebackground.png'
+import {getAsyncLocalUserId} from '../utils/authAndData'
 
 import { UserProfileHeader } from '../components/UserProfileHeader';
 import { HorizontalScrollableView } from '../components/HorizontalScrollableView';
-import { useUserTourInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userTour';
 import { ProductDetails } from './ProductDetails'
 
 import colors from '../styles/colors';
@@ -39,7 +40,7 @@ function StackDetails() {
 }
 
 export function Homepage() {
-    const { userInfo, userInfoController } = useUserTourInfo()
+    const { userInfo, userInfoController } = useUserInfo()
     const navigation = useNavigation()
 
     useEffect(() => {

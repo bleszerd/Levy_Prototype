@@ -5,14 +5,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { Button } from '../components/Button';
 import { UserProfileHeader } from '../components/UserProfileHeader';
-import { useUserTourInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userTour';
 
 import dimensions from '../styles/dimensions';
 import { StackActions, useNavigation } from '@react-navigation/core';
 import wavebackground from '../static_assets/wavebackground.png'
 
 export function Profile() {
-    const { userInfo, userInfoController } = useUserTourInfo()
+    const { userInfo, userInfoController } = useUserInfo()
 
     const navigation = useNavigation()
 

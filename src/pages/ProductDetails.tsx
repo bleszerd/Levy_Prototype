@@ -8,7 +8,7 @@ import {
     Image,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useUserTourInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userTour';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { FlatList, RectButton, TouchableOpacity } from 'react-native-gesture-handler';

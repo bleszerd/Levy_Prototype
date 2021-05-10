@@ -21,7 +21,7 @@ import dimensions from '../styles/dimensions';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 import { Button } from '../components/Button';
-import { useUserTourInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userTour';
 import { UserProfileHeader } from '../components/UserProfileHeader';
 
 export function TourPhoto() {
@@ -34,7 +34,7 @@ export function TourPhoto() {
 
     const [base64Image, setBase64Image] = useState<null | string>(null)
 
-    const { userInfo, userInfoController } = useUserTourInfo()
+    const { userInfo, userInfoController } = useUserInfo()
 
     const cameraRef = useRef<Camera>(null)
 
@@ -55,14 +55,14 @@ export function TourPhoto() {
     }
 
     function handleConfirmPhoto() {
-        // if (base64Image) {
-            // userInfoController.updateUserInfo({
-            //     ...userInfo,
-            //     photo: base64Image
-            // })
+        if (base64Image) {
+            userInfoController.updateUserInfo({
+                ...userInfo,
+                photo: base64Image
+            })
 
             navigation.navigate("TourDone")
-        // }
+        }
     }
 
     //Get photo from gallery
@@ -210,17 +210,7 @@ export function TourPhoto() {
                 {
                     !!!base64Image
                         ? <TouchableWithoutFeedback
-                            onPress={() => {
-                                Alert.alert("Infelizmente estamos enfrentando problemas ao salvar a imagem.", "Tente mais tarde em um proxima versão do app. 😥", 
-                                [
-                                    {
-                                        text: "Continuar sem uma foto",
-                                        onPress: () => handleConfirmPhoto(),
-                                    }
-                                ]
-                                )
-                            }}
-                        // onPress={handleSelectPhoto}
+                            onPress={handleSelectPhoto}
                         >
                             <View style={styles.cameraButton}>
                                 <LottieView style={styles.cameraAnimation}

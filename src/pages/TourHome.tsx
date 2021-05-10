@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import {
-    View,
-    SafeAreaView,
-    Text,
-    StyleSheet,
-} from 'react-native'
+import { View, SafeAreaView, Text, ActivityIndicator, StyleSheet, } from 'react-native'
 import { StackActions, useNavigation } from '@react-navigation/core';
-import asyncStorage from '@react-native-async-storage/async-storage'
-import splashScreen from 'expo-splash-screen'
+import { getAsyncLocalUserId, fetchExternalUserData, parseUserToTourInfo } from '../utils/authAndData'
+import Parse from 'parse/react-native'
+
+import { useUserInfo } from '../context/userTour';
 
 import Logo from '../components/assets/Logo'
 import { Button } from '../components/Button';
@@ -15,11 +12,11 @@ import { Button } from '../components/Button';
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
-import { UserTourInfo, useUserTourInfo } from '../context/userTour';
 
 export function TourHome() {
     const [appIsReady, setAppIsReady] = useState(false)
-    const { userInfo, userInfoController } = useUserTourInfo()
+
+    const { userInfoController } = useUserInfo()
     const navigation = useNavigation()
 
     useEffect(() => {
@@ -28,16 +25,25 @@ export function TourHome() {
 
     //Start app lifecycle
     async function handleAppStart() {
-        const stringfiedData = await asyncStorage.getItem("com.github.levy:userInfo")
+        //Get userId from AsyncStorage
+        const userId = await getAsyncLocalUserId()
 
-        stringfiedData
-            ? updateUserInfoAndRedirect(stringfiedData)
+        //Get info from external database
+        const userData = await fetchExternalUserData(userId)
+
+        //If userId exist on database proced to homepage and update userTourInfo context
+        userData != null
+            ? updateUserInfoAndRedirect(userData)
             : setAppIsReady(true)
     }
 
-    //Set context data and navigate to Homespage
-    function updateUserInfoAndRedirect(stringfiedData: string) {
-        userInfoController.updateUserInfo(JSON.parse(stringfiedData))
+    //Set userTourInfo context data and navigate to Homespage
+    function updateUserInfoAndRedirect(userData: Parse.Object<Parse.Attributes>) {
+        //Convert database model to userTourInfo context format
+        const userTourData = parseUserToTourInfo(userData)
+
+        //Update context data
+        userInfoController.updateUserInfo(userTourData)
         navigation.dispatch(StackActions.replace("TabRoutes"))
     }
 
@@ -46,9 +52,14 @@ export function TourHome() {
         navigation.navigate("TourName")
     }
 
-    //Wait app ready true state
+    //Waiting for appIsReady == true
     if (!appIsReady) {
-        return <Text style={{color: colors.warning}}>Loading</Text>
+        return <View style={styles.loadingAnim}>
+            <ActivityIndicator
+                size="large"
+                color={colors.orange}
+            />
+        </View>
     }
 
     return (
@@ -121,5 +132,10 @@ const styles = StyleSheet.create({
     },
     button: {
         paddingVertical: 36
+    },
+    loadingAnim: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
     }
 })
