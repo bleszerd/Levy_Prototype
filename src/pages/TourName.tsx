@@ -45,23 +45,28 @@ export function TourName() {
         }
     }, [name])
 
+    //On text change
     function handleInputTextChange(value: string) {
         if (value.length <= 30)
             setName(value)
     }
 
+    //Dismiss keyboard
     function handleWithoutFeedback() {
         Keyboard.dismiss()
     }
 
+    //On input blur (focus out)
     function handleInputBlur() {
         setInputIsFocused(false)
     }
 
+    //On input focus
     function handleInputFocus() {
         setInputIsFocused(true)
     }
 
+    //Update userInfo and navigate to next paga
     function handleMoveOn() {
         userInfoController.updateUserInfo({
             ...userInfo,

@@ -6,16 +6,17 @@ import {
     Text,
 } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler'
+import { useNavigation } from '@react-navigation/core';
+import { useUserInfo } from '../context/userTour';
 
-import { Button } from '../components/Button';
 import FemaleProfile from '../components/assets/FemaleProfile'
 import MaleProfile from '../components/assets/MaleProfile'
+import { Button } from '../components/Button';
+import { UserProfileHeader } from '../components/UserProfileHeader';
+
 import dimensions from '../styles/dimensions';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import { useNavigation } from '@react-navigation/core';
-import { useUserInfo } from '../context/userTour';
-import { UserProfileHeader } from '../components/UserProfileHeader';
 
 export type Gender = "male" | "female"
 
@@ -26,15 +27,18 @@ export function TourGender() {
     const navigation = useNavigation()
     const { userInfo, userInfoController } = useUserInfo()
 
+    //Handle selected gender text
     useEffect(() => {
         setLabelText(gender === 'male' ? "O vendedor.  👨" : "A vendedora.  👩")
     }, [gender])
 
+    //Handle gander
     function handleGenderSelect(value: Gender) {
         if (value != gender)
             setGender(value)
     }
 
+    //Update userInfo and navigate to next page
     function handleChoosePhoto() {
         userInfoController.updateUserInfo({
             ...userInfo,
@@ -47,7 +51,7 @@ export function TourGender() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <UserProfileHeader 
+                <UserProfileHeader
                     subLabel="Certo,"
                 />
             </View>

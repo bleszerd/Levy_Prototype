@@ -26,7 +26,7 @@ export function AsideProductBadge({ icon: Icon, text }: AsideProductBadgeProps) 
                     Icon.color && {
                         color: Icon.color
                     },
-                    
+
                 ]}
                 name={Icon.name}
                 size={Icon.size}

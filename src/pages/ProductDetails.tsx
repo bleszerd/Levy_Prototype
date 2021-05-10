@@ -8,11 +8,9 @@ import {
     Image,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { useUserInfo } from '../context/userTour';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { FlatList, RectButton, TouchableOpacity } from 'react-native-gesture-handler';
-
 import wavebackground from '../static_assets/wavebackground.png'
 import productData from '../services/data'
 
@@ -28,10 +26,12 @@ export function ProductDetails() {
     const [meanVotes, setMeanVotes] = useState<number | string>()
     const [votes, setVotes] = useState<number>()
 
+    //Calc. the average of user rating on component did mount
     useEffect(() => {
         calculateAverage()
     }, [])
 
+    //Calc. the average of userr ating
     function calculateAverage() {
         const averageRawValues = data.new_products[0].seller.classifierSizes
         const averageSizes = []

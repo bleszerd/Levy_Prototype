@@ -1,4 +1,3 @@
-import { StackActions, useNavigation } from '@react-navigation/core';
 import React, { useState } from 'react';
 import {
     View,
@@ -7,7 +6,9 @@ import {
     StyleSheet,
     ActivityIndicator
 } from 'react-native'
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import { StackActions, useNavigation } from '@react-navigation/core';
+import Parse from 'parse/react-native'
+import {handleAsyncStorageData} from '../utils/userData'
 
 import AllDone from '../components/assets/AllDone'
 import { Button } from '../components/Button';
@@ -16,7 +17,6 @@ import { useUserInfo } from '../context/userTour';
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
-import Parse from 'parse/react-native'
 
 
 export function TourDone() {
@@ -24,6 +24,7 @@ export function TourDone() {
     const { userInfo } = useUserInfo()
     const [buttonIsPressed, setButtonIsPressed] = useState(false)
 
+    //Save user on database
     async function storeToExternalDatabase() {
         const User = Parse.Object.extend('AppUser')
         const user = new User();
@@ -36,7 +37,7 @@ export function TourDone() {
 
         try {
             const result = await user.save()
-            await AsyncStorage.setItem('com.github.levy:userId', result.id)
+            await handleAsyncStorageData("set", "userId", result.id)
 
             console.log(`User ${name} created with id ${result.id}`);
         } catch (err) {
@@ -44,19 +45,15 @@ export function TourDone() {
         }
     }
 
-    async function saveUserInfoOnAsyncStorage() {
-        await AsyncStorage.setItem(
-            "com.github.levy:userInfo",
-            JSON.stringify(userInfo)
-        )
-    }
-
+    //Store userInfo and redirect to App tab cycle
     async function handleDoneTour() {
+        //Disable button preventing double database create
         setButtonIsPressed(true)
 
-        await saveUserInfoOnAsyncStorage()
+        //Store data
         await storeToExternalDatabase()
 
+        //Handle app screen cycle
         navigation.dispatch(StackActions.popToTop())
         navigation.dispatch(StackActions.replace("TabRoutes"))
     }
@@ -71,7 +68,7 @@ export function TourDone() {
 
             <View style={styles.body}>
                 <Text style={styles.logoTextTitle}>
-                    É isso aí, {userInfo.name}  😆
+                    É isso aí, {userInfo.name?.split(' ')[0]}  😆
                 </Text>
                 <Text style={styles.logoTextSubtitle}>
                     Obrigado por completar o seu perfil
@@ -85,11 +82,11 @@ export function TourDone() {
                             text="Completar Perfil"
                             onPress={() => handleDoneTour()}
                         />
-                        : <ActivityIndicator 
+                        : <ActivityIndicator
                             size="large"
                             color={colors.orange}
                         />
-                    
+
                 }
             </View>
         </SafeAreaView>

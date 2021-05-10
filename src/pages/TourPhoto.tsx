@@ -6,7 +6,6 @@ import {
     View,
     Image,
     TouchableWithoutFeedback,
-    Alert,
 } from 'react-native';
 import LottieView from 'lottie-react-native'
 import { RectButton, TouchableOpacity } from 'react-native-gesture-handler';
@@ -14,15 +13,15 @@ import { MaterialIcons, FontAwesome } from '@expo/vector-icons'
 import { Camera } from 'expo-camera';
 import { useNavigation } from '@react-navigation/core';
 import * as ImagePicker from 'expo-image-picker';
-
 import cameraAnimation from '../static_assets/cameraAnimation.json'
+
+import { Button } from '../components/Button';
+import { useUserInfo } from '../context/userTour';
+import { UserProfileHeader } from '../components/UserProfileHeader';
 
 import dimensions from '../styles/dimensions';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
-import { Button } from '../components/Button';
-import { useUserInfo } from '../context/userTour';
-import { UserProfileHeader } from '../components/UserProfileHeader';
 
 export function TourPhoto() {
     const [hasCameraPermission, setHasCameraPermission] = useState<boolean>()
@@ -35,25 +34,28 @@ export function TourPhoto() {
     const [base64Image, setBase64Image] = useState<null | string>(null)
 
     const { userInfo, userInfoController } = useUserInfo()
-
     const cameraRef = useRef<Camera>(null)
 
     const navigation = useNavigation()
 
+    //Request permissions
     useEffect(() => {
         handlePermissionRequest()
     }, [])
 
+    //Verify permission if someone is false
     useEffect(() => {
         if (hasCameraPermission === false || hasImagePickerPermission === false) {
             handlePermissionRequest()
         }
     }, [hasCameraPermission])
 
+    //Skip photo upload
     function handleSkipPhoto() {
         navigation.navigate("TourDone")
     }
 
+    //Update userInfo and navigate to next page
     function handleConfirmPhoto() {
         if (base64Image) {
             userInfoController.updateUserInfo({
@@ -83,23 +85,27 @@ export function TourPhoto() {
     }
 
     //Get photo from camera
-    //Set "setCameraIsOpen" to true to view Camera screen before!!!!
+    //Set "setCameraIsOpen" to true to view Camera screen before!
     async function takePicture() {
         if (cameraIsReady && cameraRef.current) {
+            //Take a picture and return base64 image
             const photo = await cameraRef.current.takePictureAsync({
                 base64: true
             })
 
+            //If photo no exist just return
             if (!photo) {
                 return
             }
 
+            //If photo is valid store that on state
             if (photo.base64) {
                 setBase64Image(photo.base64)
             }
         }
     }
 
+    //Request permisions and set states
     async function handlePermissionRequest() {
         const { status: cameraStatus } = await Camera.requestPermissionsAsync()
         const { status: ImagePickerStatus } = await ImagePicker.requestMediaLibraryPermissionsAsync()
@@ -108,14 +114,17 @@ export function TourPhoto() {
         setHasImagePickerPermission(ImagePickerStatus == 'granted')
     }
 
+    //Photo modal open
     async function handleSelectPhoto() {
         setSelectModalIsOpen(true)
     }
 
+    //Photo modal close
     function dismissSelectModal() {
         setSelectModalIsOpen(false)
     }
 
+    //Take a picture and close modal and camera view
     async function takePictureAndDismiss() {
         await takePicture()
         setSelectModalIsOpen(false)
