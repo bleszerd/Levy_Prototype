@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { View, SafeAreaView, Text, ActivityIndicator, StyleSheet, } from 'react-native'
 import { StackActions, useNavigation } from '@react-navigation/core';
-import { getAsyncLocalUserId, fetchExternalUserData, parseUserToTourInfo } from '../utils/authAndData'
+import { getAsyncLocalUserId, fetchExternalUserData, parseUserToTourInfo } from '../utils/userData'
 import Parse from 'parse/react-native'
 
 import { useUserInfo } from '../context/userTour';

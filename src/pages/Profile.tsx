@@ -6,6 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { Button } from '../components/Button';
 import { UserProfileHeader } from '../components/UserProfileHeader';
 import { useUserInfo } from '../context/userTour';
+import { asyncRemoveUserFromDatabase, getAsyncLocalUserId, handleAsyncStorageData } from '../utils/userData'
 
 import dimensions from '../styles/dimensions';
 import { StackActions, useNavigation } from '@react-navigation/core';
@@ -24,7 +25,14 @@ export function Profile() {
                 { text: 'Não', style: 'cancel' },
                 {
                     text: 'Sim', onPress: async () => {
-                        await AsyncStorage.removeItem("com.github.levy:userInfo")
+                        //Get userId
+                        const userId = await getAsyncLocalUserId()
+
+                        //Remove user
+                        await asyncRemoveUserFromDatabase(userId)
+                        await handleAsyncStorageData("remove", "userId")
+
+                        //Navigate to tour cycle
                         navigation.dispatch(
                             StackActions.replace("TourHome")
                         )
@@ -34,6 +42,8 @@ export function Profile() {
             { cancelable: false }
         )
     }
+
+    //use function from userData to remove user
 
     return (
         <SafeAreaView style={styles.container}>
@@ -66,7 +76,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    wave:{
+    wave: {
         flex: 1
     },
     header: {

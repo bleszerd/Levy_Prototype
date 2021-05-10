@@ -7,50 +7,23 @@ import {
     ImageBackground,
 } from "react-native";
 import { FlatList, ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
-import { API } from '../services/api'
 import wavebackground from '../static_assets/wavebackground.png'
-import {getAsyncLocalUserId} from '../utils/authAndData'
 
 import { UserProfileHeader } from '../components/UserProfileHeader';
 import { HorizontalScrollableView } from '../components/HorizontalScrollableView';
 import { useUserInfo } from '../context/userTour';
-import { ProductDetails } from './ProductDetails'
+import productData from '../services/data'
+import data from '../services/data';
 
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
 
-import productData from '../services/data'
-import data from '../services/data';
-
-import { createStackNavigator } from '@react-navigation/stack'
 import { useNavigation } from '@react-navigation/core';
-
-const StackRoutes = createStackNavigator()
-
-function StackDetails() {
-    return (
-        <StackRoutes.Navigator>
-            <StackRoutes.Screen
-                name="details"
-                component={ProductDetails}
-            />
-        </StackRoutes.Navigator>
-    )
-}
 
 export function Homepage() {
     const { userInfo, userInfoController } = useUserInfo()
     const navigation = useNavigation()
-
-    useEffect(() => {
-        // async function fetchProducts() {
-        //     const productsResponse = await API.get("/new_products")
-        //     console.log(productsResponse);
-        // }
-
-        // fetchProducts()
-    }, [])
 
     function navigateToProduct() {
         navigation.navigate("ProductDetails")
@@ -123,6 +96,7 @@ export function Homepage() {
                                     >
 
                                         {/*Inside the image*/}
+
                                     </ImageBackground>
                                 </TouchableWithoutFeedback >
                             )}
