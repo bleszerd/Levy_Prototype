@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import {
     View,
     StyleSheet,
@@ -13,28 +13,24 @@ import colors from '../../styles/colors';
 import dimensions from '../../styles/dimensions';
 import fonts from '../../styles/fonts';
 import { AsideProductBadge } from '../AsideProductBadge';
-import { useNavigation } from '@react-navigation/core';
-
-interface Product {
-    id: string
-    key: string
-    title: string
-    seller: {
-        id: string
-    },
-    productData: {
-        category: string
-        description: string
-        image: string
-    }
-}
+import { Product } from '../../ts/types';
+import { parseStrCategoryToCorrectFormat, parseStrMoneyToCorrectFormat } from '../../utils/text';
 
 interface HorizontalProductScrollableView {
     data: Product[]
-    onPress?: () => void
+    onPress?: (product: Product) => void
+    selectedDispatch: React.Dispatch<React.SetStateAction<Product>>
 }
 
-export function HorizontalScrollableView({ data, onPress }: HorizontalProductScrollableView) {
+export function HorizontalScrollableView({ data, onPress, selectedDispatch }: HorizontalProductScrollableView) {
+    useEffect(() => {
+    }, [])
+
+    function handleOnPress(productData: Product) {
+        if (onPress)
+            onPress(productData)
+    }
+
     return (
         <View style={styles.flatContainer}>
             <FlatList style={styles.container}
@@ -42,7 +38,7 @@ export function HorizontalScrollableView({ data, onPress }: HorizontalProductScr
                 renderItem={({ item, index }) => (
                     <TouchableWithoutFeedback style={styles.flatContainer}
                         /*Navigate to stack again*/
-                        onPress={onPress}
+                        onPress={() => handleOnPress(item)}
                     >
                         <ImageBackground style={[
                             styles.product,
@@ -66,7 +62,7 @@ export function HorizontalScrollableView({ data, onPress }: HorizontalProductScr
                                         color: colors.success,
                                         size: 32
                                     }}
-                                    text="125,00"
+                                    text={parseStrMoneyToCorrectFormat(item.productData.price)}
                                 />
 
                                 <AsideProductBadge
@@ -76,7 +72,7 @@ export function HorizontalScrollableView({ data, onPress }: HorizontalProductScr
                                         color: colors.brown,
                                         size: 21
                                     }}
-                                    text="Usado"
+                                    text={parseStrCategoryToCorrectFormat(item.productData.category)}
                                 />
                             </View>
                         </ImageBackground>
