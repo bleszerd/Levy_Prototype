@@ -59,7 +59,6 @@ export function Homepage() {
                             <Text style={styles.scrollableLabel}>
                                 Anunciados recentemente
                             </Text>
-
                             <HorizontalScrollableView
                                 selectedDispatch={setSelectedProduct}
                                 data={productData.new_products}

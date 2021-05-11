@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import {
     View,
     StyleSheet,
@@ -14,6 +14,7 @@ import dimensions from '../../styles/dimensions';
 import fonts from '../../styles/fonts';
 import { AsideProductBadge } from '../AsideProductBadge';
 import { Product } from '../../ts/types';
+import { parseStrCategoryToCorrectFormat, parseStrMoneyToCorrectFormat } from '../../utils/text';
 
 interface HorizontalProductScrollableView {
     data: Product[]
@@ -22,6 +23,9 @@ interface HorizontalProductScrollableView {
 }
 
 export function HorizontalScrollableView({ data, onPress, selectedDispatch }: HorizontalProductScrollableView) {
+    useEffect(() => {
+    }, [])
+
     function handleOnPress(productData: Product) {
         if (onPress)
             onPress(productData)
@@ -58,7 +62,7 @@ export function HorizontalScrollableView({ data, onPress, selectedDispatch }: Ho
                                         color: colors.success,
                                         size: 32
                                     }}
-                                    text="125,00"
+                                    text={parseStrMoneyToCorrectFormat(item.productData.price)}
                                 />
 
                                 <AsideProductBadge
@@ -68,7 +72,7 @@ export function HorizontalScrollableView({ data, onPress, selectedDispatch }: Ho
                                         color: colors.brown,
                                         size: 21
                                     }}
-                                    text="Usado"
+                                    text={parseStrCategoryToCorrectFormat(item.productData.category)}
                                 />
                             </View>
                         </ImageBackground>

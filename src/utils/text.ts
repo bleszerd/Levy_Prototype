@@ -1,3 +1,5 @@
+import { AvailableProductCategory } from "../ts/types"
+
 const EXPLICITY_WORDS = ['EXPLICITY', 'explicity', 'sweet duck']
 
 //Filter explicity words based on array EXPLICITY_WORDS above
@@ -28,4 +30,15 @@ export function validateName(name: string) {
     } else {
         return false
     }
+}
+
+//Convert money string from backend to correct decimal format
+export function parseStrMoneyToCorrectFormat(strMoney: string){
+    const convertedMoney = (Number(strMoney) / 100).toFixed(2).toString()
+
+    return convertedMoney
+}
+
+export function parseStrCategoryToCorrectFormat(strCategory: string){
+    return strCategory === "new" ? "Novo" : "Usado"
 }

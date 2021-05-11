@@ -21,6 +21,8 @@ import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
 import { ProductGallery } from '../components/ProductGallery';
 import { ScreenProps } from 'react-native-screens';
+import { Product } from '../ts/types';
+import { parseStrCategoryToCorrectFormat, parseStrMoneyToCorrectFormat } from '../utils/text';
 
 export function ProductDetails({route}: any) {
     const [galleryIsOpened, setGalleryIsOpened] = useState(false)
@@ -28,7 +30,7 @@ export function ProductDetails({route}: any) {
     const [meanVotes, setMeanVotes] = useState<number | string>()
     const [votes, setVotes] = useState<number>()
     const [selectedProductIndex, setSelectedProductIndex] = useState(0)
-    const [product, setProduct] = useState(route.params.product)
+    const [product, setProduct] = useState<Product>(route.params.product)
     
     //Calc. the average of user rating on component did mount
     useEffect(() => {
@@ -135,7 +137,7 @@ export function ProductDetails({route}: any) {
                                     />
 
                                     <Text style={styles.detailText}>
-                                        125,00
+                                        {parseStrMoneyToCorrectFormat(product.productData.price)}
                                     </Text>
                                 </View>
 
@@ -150,7 +152,7 @@ export function ProductDetails({route}: any) {
                                         styles.detailText,
                                         { marginLeft: 10, }
                                     ]}>
-                                        Usado
+                                        {parseStrCategoryToCorrectFormat(product.productData.category)}
                                     </Text>
                                 </View>
                             </View>

@@ -5,6 +5,8 @@ export interface GalleryItem {
 }
 
 /* Product */
+type AvailableProductCategory = "second-hands" | "new"
+
 export interface Product {
     id: string
     key: string
@@ -17,6 +19,27 @@ export interface Product {
         category: string
         description: string
         image: string
+        price: string
         gallery: GalleryItem[]
     }
 }
+
+interface Received {
+    id: string
+    key: string
+    title: string
+    seller: {
+        id: string
+        classifierSizes: number[]
+    }
+    productData: {
+        category: string
+        price: string
+        description: string
+        image: string
+        gallery: {
+            id: string
+            image: string
+        }[]
+    }
+}[]
