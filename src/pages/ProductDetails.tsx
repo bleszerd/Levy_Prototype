@@ -6,11 +6,12 @@ import {
     StyleSheet,
     Text,
     Image,
+    BackHandler,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
-import { FlatList, RectButton, TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList, RectButton, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import wavebackground from '../static_assets/wavebackground.png'
 import productData from '../services/data'
 
@@ -19,21 +20,24 @@ import Rating from '../components/Rating';
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
-import data from '../services/data'
+import { ProductGallery } from '../components/ProductGallery';
+import { useNavigation } from '@react-navigation/core';
 
 export function ProductDetails() {
+    const [galleryIsOpened, setGalleryIsOpened] = useState(false)
     const [classifierSizes, setClassifierSizes] = useState<number[]>()
     const [meanVotes, setMeanVotes] = useState<number | string>()
     const [votes, setVotes] = useState<number>()
+    const [selectedProductIndex, setSelectedProductIndex] = useState(0)
 
     //Calc. the average of user rating on component did mount
     useEffect(() => {
         calculateAverage()
     }, [])
 
-    //Calc. the average of userr ating
+    //Calc. the average of user rating
     function calculateAverage() {
-        const averageRawValues = data.new_products[0].seller.classifierSizes
+        const averageRawValues = productData.new_products[0].seller.classifierSizes
         const averageSizes = []
         const averageVotes = []
         const meanVotesArr = []
@@ -63,6 +67,10 @@ export function ProductDetails() {
         setVotes(totalVotes)
     }
 
+    function handleOpenGallery() {
+        setGalleryIsOpened(true)
+    }
+
     function renderLeftContent() {
         return (
             <View>
@@ -76,7 +84,7 @@ export function ProductDetails() {
 
                         <Text style={styles.sellerProfileText}>
                             Sobre o vendedor
-                    </Text>
+                        </Text>
                     </TouchableOpacity>
                 </RectButton>
             </View>
@@ -92,6 +100,15 @@ export function ProductDetails() {
                     marginTop: dimensions.window.height * .3
                 }}
             >
+
+                {
+                    galleryIsOpened
+                    && <ProductGallery
+                        galleryData={productData.new_products[0].productData.gallery}
+                        selectedIndex={selectedProductIndex}
+                        dispatch={setGalleryIsOpened}
+                    />
+                }
 
                 <ScrollView style={styles.scrollContainer}>
                     <Image
@@ -142,13 +159,20 @@ export function ProductDetails() {
                     <View style={styles.body}>
                         <FlatList
                             data={productData.new_products[0].productData.gallery}
-                            renderItem={({ item }) => (
-                                <Image
-                                    source={{
-                                        uri: item.image
+                            renderItem={({ item, index }) => (
+                                <TouchableWithoutFeedback
+                                    onPress={() => {
+                                        handleOpenGallery()
+                                        setSelectedProductIndex(index)
                                     }}
-                                    style={styles.gallery}
-                                />
+                                >
+                                    <Image
+                                        source={{
+                                            uri: item.image
+                                        }}
+                                        style={styles.gallery}
+                                    />
+                                </TouchableWithoutFeedback>
                             )}
                             horizontal={true}
                             keyExtractor={item => item.id}
