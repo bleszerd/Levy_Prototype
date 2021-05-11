@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     Text,
     SafeAreaView,
@@ -20,13 +20,23 @@ import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
 
 import { useNavigation } from '@react-navigation/core';
+import { Product } from '../ts/types';
 
 export function Homepage() {
+    const [selectedProduct, setSelectedProduct] = useState<Product>({} as Product)
     const { userInfo, userInfoController } = useUserInfo()
     const navigation = useNavigation()
 
-    function navigateToProduct() {
-        navigation.navigate("ProductDetails")
+    function navigateToProduct(product: Product) {
+        navigation.navigate("ProductDetails", {
+            product
+        })
+    }
+
+    function featuredToDetails(product: Product) {
+        navigation.navigate("ProductDetails", {
+            product
+        })
     }
 
     return (
@@ -51,8 +61,9 @@ export function Homepage() {
                             </Text>
 
                             <HorizontalScrollableView
+                                selectedDispatch={setSelectedProduct}
                                 data={productData.new_products}
-                                onPress={navigateToProduct}
+                                onPress={(product) => navigateToProduct(product)}
                             />
                         </View>
 
@@ -62,8 +73,9 @@ export function Homepage() {
                         </Text>
 
                             <HorizontalScrollableView
+                                selectedDispatch={setSelectedProduct}
                                 data={productData.new_products}
-                                onPress={navigateToProduct}
+                                onPress={(product) => navigateToProduct(product)}
                             />
                         </View>
                     </View>
@@ -78,7 +90,7 @@ export function Homepage() {
                             style={styles.featuredProduct}
                             renderItem={({ item, index }) => (
                                 <TouchableWithoutFeedback
-                                    onPress={navigateToProduct}
+                                    onPress={() => navigateToProduct(item)}
                                 >
                                     <ImageBackground style={[
                                         styles.featuredImage,

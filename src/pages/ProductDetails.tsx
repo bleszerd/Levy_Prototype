@@ -13,7 +13,6 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { FlatList, RectButton, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import wavebackground from '../static_assets/wavebackground.png'
-import productData from '../services/data'
 
 import Rating from '../components/Rating';
 
@@ -21,15 +20,16 @@ import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
 import { ProductGallery } from '../components/ProductGallery';
-import { useNavigation } from '@react-navigation/core';
+import { ScreenProps } from 'react-native-screens';
 
-export function ProductDetails() {
+export function ProductDetails({route}: any) {
     const [galleryIsOpened, setGalleryIsOpened] = useState(false)
     const [classifierSizes, setClassifierSizes] = useState<number[]>()
     const [meanVotes, setMeanVotes] = useState<number | string>()
     const [votes, setVotes] = useState<number>()
     const [selectedProductIndex, setSelectedProductIndex] = useState(0)
-
+    const [product, setProduct] = useState(route.params.product)
+    
     //Calc. the average of user rating on component did mount
     useEffect(() => {
         calculateAverage()
@@ -37,7 +37,7 @@ export function ProductDetails() {
 
     //Calc. the average of user rating
     function calculateAverage() {
-        const averageRawValues = productData.new_products[0].seller.classifierSizes
+        const averageRawValues = product.seller.classifierSizes
         const averageSizes = []
         const averageVotes = []
         const meanVotesArr = []
@@ -101,10 +101,11 @@ export function ProductDetails() {
                 }}
             >
 
+                <Text>{product.id}</Text>
                 {
                     galleryIsOpened
                     && <ProductGallery
-                        galleryData={productData.new_products[0].productData.gallery}
+                        galleryData={product.productData.gallery}
                         selectedIndex={selectedProductIndex}
                         dispatch={setGalleryIsOpened}
                     />
@@ -113,7 +114,7 @@ export function ProductDetails() {
                 <ScrollView style={styles.scrollContainer}>
                     <Image
                         source={{
-                            uri: productData.new_products[0].productData.image
+                            uri: product.productData.image
                         }}
                         resizeMode="cover"
                         style={styles.headerImg}
@@ -158,7 +159,7 @@ export function ProductDetails() {
 
                     <View style={styles.body}>
                         <FlatList
-                            data={productData.new_products[0].productData.gallery}
+                            data={product.productData.gallery}
                             renderItem={({ item, index }) => (
                                 <TouchableWithoutFeedback
                                     onPress={() => {

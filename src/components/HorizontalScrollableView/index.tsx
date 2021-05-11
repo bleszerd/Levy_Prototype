@@ -13,28 +13,20 @@ import colors from '../../styles/colors';
 import dimensions from '../../styles/dimensions';
 import fonts from '../../styles/fonts';
 import { AsideProductBadge } from '../AsideProductBadge';
-import { useNavigation } from '@react-navigation/core';
-
-interface Product {
-    id: string
-    key: string
-    title: string
-    seller: {
-        id: string
-    },
-    productData: {
-        category: string
-        description: string
-        image: string
-    }
-}
+import { Product } from '../../ts/types';
 
 interface HorizontalProductScrollableView {
     data: Product[]
-    onPress?: () => void
+    onPress?: (product: Product) => void
+    selectedDispatch: React.Dispatch<React.SetStateAction<Product>>
 }
 
-export function HorizontalScrollableView({ data, onPress }: HorizontalProductScrollableView) {
+export function HorizontalScrollableView({ data, onPress, selectedDispatch }: HorizontalProductScrollableView) {
+    function handleOnPress(productData: Product) {
+        if (onPress)
+            onPress(productData)
+    }
+
     return (
         <View style={styles.flatContainer}>
             <FlatList style={styles.container}
@@ -42,7 +34,7 @@ export function HorizontalScrollableView({ data, onPress }: HorizontalProductScr
                 renderItem={({ item, index }) => (
                     <TouchableWithoutFeedback style={styles.flatContainer}
                         /*Navigate to stack again*/
-                        onPress={onPress}
+                        onPress={() => handleOnPress(item)}
                     >
                         <ImageBackground style={[
                             styles.product,

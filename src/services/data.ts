@@ -48,7 +48,7 @@ export default {
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
-        "image": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c2hvZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
+        "image": "https://ffw.uol.com.br/app/uploads/noticias/2021/03/lead-mschf-lil-nas-x-custom-nike-air-max-97-satan-shoes-controversy-654x349.jpg",
         "gallery": [
           {
             "id": "0",
@@ -85,7 +85,7 @@ export default {
       "productData": {
         "category": "second-hands",
         "description": "Nos dias mais quentes borrife água nas folhas. Regue 3 vezes na semana.",
-        "image": "https://images.unsplash.com/photo-1460353581641-37baddab0fa2?ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8c2hvZXN8ZW58MHx8MHx8&ixlib=rb-1.2.1&w=1000&q=80",
+        "image": "https://ffw.uol.com.br/app/uploads/noticias/2021/03/http-ffw-dam-assets-lil-nas-x-satan-shoes-1200x675.jpg",
         "gallery": [
           {
             "id": "0",
