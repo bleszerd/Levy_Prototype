@@ -6,7 +6,6 @@ import {
     StyleSheet,
     Text,
     Image,
-    BackHandler,
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
@@ -19,18 +18,18 @@ import Rating from '../components/Rating';
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
-import { ProductGallery } from '../components/ProductGallery';
 import { ScreenProps } from 'react-native-screens';
 import { Product } from '../ts/types';
 import { parseStrCategoryToCorrectFormat, parseStrMoneyToCorrectFormat } from '../utils/text';
+import { useNavigation } from '@react-navigation/core';
 
 export function ProductDetails({route}: any) {
-    const [galleryIsOpened, setGalleryIsOpened] = useState(false)
     const [classifierSizes, setClassifierSizes] = useState<number[]>()
     const [meanVotes, setMeanVotes] = useState<number | string>()
     const [votes, setVotes] = useState<number>()
-    const [selectedProductIndex, setSelectedProductIndex] = useState(0)
     const [product, setProduct] = useState<Product>(route.params.product)
+
+    const navigation = useNavigation()
     
     //Calc. the average of user rating on component did mount
     useEffect(() => {
@@ -69,8 +68,11 @@ export function ProductDetails({route}: any) {
         setVotes(totalVotes)
     }
 
-    function handleOpenGallery() {
-        setGalleryIsOpened(true)
+    function navigateToGalleryPage(itemIndex: number){
+        navigation.navigate("ProductGallery", {
+            galleryData: product.productData.gallery,
+            itemIndex
+        })
     }
 
     function renderLeftContent() {
@@ -102,17 +104,6 @@ export function ProductDetails({route}: any) {
                     marginTop: dimensions.window.height * .3
                 }}
             >
-
-                <Text>{product.id}</Text>
-                {
-                    galleryIsOpened
-                    && <ProductGallery
-                        galleryData={product.productData.gallery}
-                        selectedIndex={selectedProductIndex}
-                        dispatch={setGalleryIsOpened}
-                    />
-                }
-
                 <ScrollView style={styles.scrollContainer}>
                     <Image
                         source={{
@@ -164,10 +155,7 @@ export function ProductDetails({route}: any) {
                             data={product.productData.gallery}
                             renderItem={({ item, index }) => (
                                 <TouchableWithoutFeedback
-                                    onPress={() => {
-                                        handleOpenGallery()
-                                        setSelectedProductIndex(index)
-                                    }}
+                                    onPress={() => navigateToGalleryPage(index)}
                                 >
                                     <Image
                                         source={{

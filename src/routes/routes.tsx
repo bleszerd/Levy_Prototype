@@ -17,6 +17,7 @@ import { ProductDetails } from '../pages/ProductDetails'
 
 import colors from '../styles/colors'
 import dimensions from '../styles/dimensions'
+import { Gallery } from '../pages/Gallery'
 
 const StackRoute = createStackNavigator()
 const TabRoute = createBottomTabNavigator()
@@ -65,6 +66,11 @@ export default function StackRoutes() {
             <StackRoute.Screen
                 name="ProductDetails"
                 component={ProductDetails}
+            />
+
+            <StackRoute.Screen 
+                name="ProductGallery"
+                component={Gallery}
             />
         </StackRoute.Navigator>
     )
