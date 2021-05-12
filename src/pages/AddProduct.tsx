@@ -26,16 +26,16 @@ export function AddProduct() {
     const { userInfo } = useUserInfo()
 
     const navigation = useNavigation()
-
-    function addProduct() {
-        Alert.alert("Nada por aqui")
-    }
-
+    
     function navigateToProductDetails(productSelected: Product){
         navigation.navigate('ProductDetails', {
             product: productSelected,
             environment: "edit"
         })
+    }
+
+    function handleAddProduct(){
+        navigation.navigate('ProductForm')
     }
 
     return (
@@ -81,6 +81,7 @@ export function AddProduct() {
                 <View style={styles.buttonContainer}>
                     <Button
                         text="Adicionar um produto"
+                        onPress={handleAddProduct}
                     />
                 </View>
 
