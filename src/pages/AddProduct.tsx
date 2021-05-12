@@ -4,7 +4,8 @@ import {
     ImageBackground,
     StyleSheet,
     View,
-    Image
+    Image,
+    Text
 } from 'react-native'
 import { ScrollView, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -16,13 +17,25 @@ import dimensions from '../styles/dimensions';
 import wavebackground from '../static_assets/wavebackground.png'
 import { Product } from '../ts/types';
 import { Button } from '../components/Button';
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
+import { useNavigation } from '@react-navigation/core';
 
 export function AddProduct() {
     const [myProducts, setMyProducts] = useState<Product[]>(productData.my_products)
     const { userInfo } = useUserInfo()
 
+    const navigation = useNavigation()
+
     function addProduct() {
         Alert.alert("Nada por aqui")
+    }
+
+    function navigateToProductDetails(productSelected: Product){
+        navigation.navigate('ProductDetails', {
+            product: productSelected,
+            environment: "edit"
+        })
     }
 
     return (
@@ -42,19 +55,25 @@ export function AddProduct() {
 
                     <View style={styles.body}>
                         <View style={styles.productsContainer}>
-                            {
-                                myProducts.map((product, index) => (
-                                    <TouchableWithoutFeedback>
-                                        <Image style={styles.productImage}
-                                            source={{
-                                                uri: product.productData.image
-                                            }}
-                                            width={dimensions.window.width * .3}
-                                            height={dimensions.window.width * .3}
-                                        />
-                                    </TouchableWithoutFeedback>
-                                ))
-                            }
+                            <Text style={styles.gridLabel}>Meus produtos</Text>
+
+                            <View style={styles.productGrid}>
+                                {
+                                    myProducts.map((product, index) => (
+                                        <TouchableWithoutFeedback
+                                            onPress={()=>navigateToProductDetails(product)}
+                                        >
+                                            <Image style={styles.productImage}
+                                                source={{
+                                                    uri: product.productData.image
+                                                }}
+                                                width={dimensions.window.width * .3}
+                                                height={dimensions.window.width * .3}
+                                            />
+                                        </TouchableWithoutFeedback>
+                                    ))
+                                }
+                            </View>
                         </View>
                     </View>
                 </ScrollView>
@@ -66,7 +85,7 @@ export function AddProduct() {
                 </View>
 
             </ImageBackground>
-        </SafeAreaView>
+        </SafeAreaView >
     )
 }
 
@@ -98,6 +117,15 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     productsContainer: {
+        flex: 1,
+    },
+    gridLabel: {
+        color: colors.white,
+        marginBottom: 8,
+        marginLeft: dimensions.screen.width * .05,
+        fontFamily: fonts.text,
+    },
+    productGrid: {
         flex: 1,
         flexWrap: 'wrap',
         flexDirection: 'row',
