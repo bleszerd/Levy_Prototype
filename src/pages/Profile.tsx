@@ -14,9 +14,9 @@ import wavebackground from '../static_assets/wavebackground.png'
 
 export function Profile() {
     const { userInfo, userInfoController } = useUserInfo()
-
     const navigation = useNavigation()
 
+    //Clear usarData and go to app start normal cicle
     async function clearUserData() {
         Alert.alert(
             'Limpar dados e sair do aplicativo?',
@@ -42,8 +42,6 @@ export function Profile() {
             { cancelable: false }
         )
     }
-
-    //use function from userData to remove user
 
     return (
         <SafeAreaView style={styles.container}>
