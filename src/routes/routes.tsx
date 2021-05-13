@@ -14,10 +14,11 @@ import { Homepage } from '../pages/Homepage'
 import { Profile } from '../pages/Profile'
 import { AddProduct } from '../pages/AddProduct'
 import { ProductDetails } from '../pages/ProductDetails'
+import { ProductGallery } from '../pages/ProductGallery'
 
 import colors from '../styles/colors'
 import dimensions from '../styles/dimensions'
-import { Gallery } from '../pages/Gallery'
+import { ProductForm } from '../pages/ProductForm'
 
 const StackRoute = createStackNavigator()
 const TabRoute = createBottomTabNavigator()
@@ -68,9 +69,14 @@ export default function StackRoutes() {
                 component={ProductDetails}
             />
 
-            <StackRoute.Screen 
+            <StackRoute.Screen
                 name="ProductGallery"
-                component={Gallery}
+                component={ProductGallery}
+            />
+
+            <StackRoute.Screen
+                name="ProductForm"
+                component={ProductForm}
             />
         </StackRoute.Navigator>
     )

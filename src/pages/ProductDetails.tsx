@@ -12,6 +12,7 @@ import { MaterialCommunityIcons, FontAwesome5 } from '@expo/vector-icons'
 import Swipeable from 'react-native-gesture-handler/Swipeable';
 import { FlatList, RectButton, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import wavebackground from '../static_assets/wavebackground.png'
+import { MaterialIcons } from '@expo/vector-icons'
 
 import Rating from '../components/Rating';
 
@@ -23,14 +24,15 @@ import { Product } from '../ts/types';
 import { parseStrCategoryToCorrectFormat, parseStrMoneyToCorrectFormat } from '../utils/text';
 import { useNavigation } from '@react-navigation/core';
 
-export function ProductDetails({route}: any) {
+export function ProductDetails({ route }: any) {
     const [classifierSizes, setClassifierSizes] = useState<number[]>()
     const [meanVotes, setMeanVotes] = useState<number | string>()
     const [votes, setVotes] = useState<number>()
     const [product, setProduct] = useState<Product>(route.params.product)
+    const [environment, setEnvironment] = useState(route.params.environment || null)
 
     const navigation = useNavigation()
-    
+
     //Calc. the average of user rating on component did mount
     useEffect(() => {
         calculateAverage()
@@ -68,10 +70,17 @@ export function ProductDetails({route}: any) {
         setVotes(totalVotes)
     }
 
-    function navigateToGalleryPage(itemIndex: number){
+    function navigateToGalleryPage(itemIndex: number) {
         navigation.navigate("ProductGallery", {
             galleryData: product.productData.gallery,
             itemIndex
+        })
+    }
+
+    function navigateToEditForm(productToEdit: Product){
+        navigation.navigate("ProductForm", {
+            product,
+            environment
         })
     }
 
@@ -104,6 +113,21 @@ export function ProductDetails({route}: any) {
                     marginTop: dimensions.window.height * .3
                 }}
             >
+                {
+                    environment == "edit" &&
+                    <View style={styles.editButtonContainer}>
+                        <TouchableOpacity style={styles.editButton}
+                            onPress={() => navigateToEditForm(product)}
+                        >
+                            <MaterialIcons
+                                name="edit"
+                                size={24}
+                                color={colors.white}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                }
+
                 <ScrollView style={styles.scrollContainer}>
                     <Image
                         source={{
@@ -238,8 +262,20 @@ const styles = StyleSheet.create({
     wave: {
         flex: 1,
     },
+    editButtonContainer: {
+        top: dimensions.screen.width * .05,
+        right: dimensions.screen.width * .05,
+        position: 'absolute',
+        zIndex: 16,
+    },
+    editButton: {
+        backgroundColor: colors.orange,
+        padding: 12,
+        borderRadius: dimensions.screen.width,
+        elevation: 7,
+    },
     headerImg: {
-        height: dimensions.window.height * .4,
+        height: dimensions.screen.height * .4,
         borderBottomLeftRadius: 16,
         borderBottomRightRadius: 10,
     },

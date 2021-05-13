@@ -1,20 +1,17 @@
 import React, { useState } from 'react';
 import {
-    ImageBackground,
     SafeAreaView,
     View,
     StyleSheet,
-    Text,
     Image,
 } from 'react-native'
-import { Product } from '../ts/types';
 import { HandlerStateChangeEvent, Swipeable } from 'react-native-gesture-handler';
 
 import wavebackground from '../static_assets/wavebackground.png'
 import dimensions from '../styles/dimensions';
 import colors from '../styles/colors';
 
-export function Gallery({ route }: any) {
+export function ProductGallery({ route }: any) {
     const [galleryItems, setGalleryItems] = useState<any[]>(route.params.galleryData)
     const [activeItemId, setActiveItemId] = useState<number>(route.params.itemIndex)
 

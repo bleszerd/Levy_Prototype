@@ -1,5 +1,3 @@
-import { AvailableProductCategory } from "../ts/types"
-
 const EXPLICITY_WORDS = ['EXPLICITY', 'explicity', 'sweet duck']
 
 //Filter explicity words based on array EXPLICITY_WORDS above
