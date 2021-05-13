@@ -43,3 +43,6 @@ interface Received {
         }[]
     }
 }[]
+
+/* Gender */
+export type Gender = "male" | "female"

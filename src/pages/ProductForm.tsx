@@ -8,22 +8,23 @@ import {
     ImageBackground,
     Image,
     KeyboardAvoidingView,
-    Keyboard
 } from 'react-native'
-import { RectButton, ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { ScrollView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker'
-import { parseStrMoneyToCorrectFormat } from '../utils/text'
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
 import ImagePicker, { requestMediaLibraryPermissionsAsync } from 'expo-image-picker'
 import { Camera, requestPermissionsAsync } from 'expo-camera'
+import { StackActions, useNavigation } from '@react-navigation/core';
+import { GalleryItem, Product } from '../ts/types';
 
+import { parseStrMoneyToCorrectFormat } from '../utils/text'
+import { base64GalleryExtractor } from '../utils/gallery';
+import { Button } from '../components/Button';
 import wave from '../static_assets/wavebackground.png'
+
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
-import { GalleryItem, Product } from '../ts/types';
-import { Button } from '../components/Button';
-import { StackActions, useNavigation } from '@react-navigation/core';
 
 export function ProductForm({ route }: any) {
     const [product, setProduct] = useState<Product>(parseParams())
@@ -33,7 +34,6 @@ export function ProductForm({ route }: any) {
     const [productImage, setProductImage] = useState(product.productData.image)
     const [productDescription, setProductDescription] = useState(product.productData.description || "")
     const [environment, setEnvironment] = useState<"edit" | "add">(route.params?.environment || "add")
-    const [base64Image, setBase64Image] = useState<string>()
     const [base64Gallery, setBase64Gallery] = useState<string[]>()
 
     const [hasCameraPermission, setHasCameraPermission] = useState(false)
@@ -45,30 +45,26 @@ export function ProductForm({ route }: any) {
     const cameraRef = useRef<Camera>(null)
     const navigation = useNavigation()
 
+    //Handle persmissions requests
     useEffect(() => {
         handleRequestPermission()
     }, [])
 
     useEffect(() => {
-        function base64GalleryExtractor(galleryData: GalleryItem[]) {
-            const galleryArr: string[] = []
-
-            galleryData.map(item => galleryArr.push(item.image))
-
-            return galleryArr
-        }
-
         if (product.productData.gallery) {
+            //Convert GalleryData from base64 image array
             setBase64Gallery(base64GalleryExtractor(product.productData.gallery))
         }
     }, [])
 
+    //Verify permissions
     useEffect(() => {
         if (hasCameraPermission === false || hasGalleryPermission === false) {
             handleRequestPermission()
         }
     }, [hasCameraPermission, hasGalleryPermission])
 
+    //Handle persmissions action
     async function handleRequestPermission() {
         const galleryPermission = await requestMediaLibraryPermissionsAsync()
         const cameraPermission = await requestPermissionsAsync()
@@ -77,6 +73,7 @@ export function ProductForm({ route }: any) {
         setHasCameraPermission(cameraPermission.granted)
     }
 
+    //Prevent crash if product is empty
     function parseParams(): Product {
         if (route.params && route.params.product)
             return route.params.product
@@ -93,6 +90,7 @@ export function ProductForm({ route }: any) {
         return paramProduct
     }
 
+    //Save changed product
     function saveProductChanges() {
         //Change into database
         navigation.dispatch(
@@ -100,6 +98,7 @@ export function ProductForm({ route }: any) {
         )
     }
 
+    //Add a new product
     function addProduct() {
         //Save into database
         navigation.dispatch(
@@ -107,6 +106,7 @@ export function ProductForm({ route }: any) {
         )
     }
 
+    //Take picture with camera
     async function takePicture() {
         if (cameraIsReady && !!cameraRef.current) {
             //Take a picture and return base64 image
@@ -123,7 +123,6 @@ export function ProductForm({ route }: any) {
             if (photo.base64) {
                 if (base64Gallery) {
                     setBase64Gallery([...base64Gallery, photo.base64])
-                    setBase64Image(photo.base64)
                     return
                 }
 
@@ -132,11 +131,13 @@ export function ProductForm({ route }: any) {
         }
     }
 
+    //Take picture and toggle camera full view
     async function takePictureAndDismiss() {
         await takePicture()
         setCameraIsOpen(false)
     }
 
+    //If camera is opened, render that
     if (cameraIsOpen) {
         return <View style={styles.cameraContainer}>
             {

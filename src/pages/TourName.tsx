@@ -10,9 +10,9 @@ import {
     Keyboard
 } from 'react-native'
 import { useNavigation } from '@react-navigation/core';
-import { validateName } from '../utils/text';
-import { useUserInfo } from '../context/userTour';
 
+import { validateName } from '../utils/text';
+import { useUserInfo } from '../context/userInfo';
 
 import { Button } from '../components/Button';
 import BuildingProfileImage from '../components/assets/BuildingProfileImage'
@@ -66,7 +66,7 @@ export function TourName() {
         setInputIsFocused(true)
     }
 
-    //Update userInfo and navigate to next paga
+    //Update userInfo and navigate to next page
     function handleMoveOn() {
         userInfoController.updateUserInfo({
             ...userInfo,

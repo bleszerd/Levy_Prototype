@@ -11,7 +11,8 @@ import wavebackground from '../static_assets/wavebackground.png'
 
 import { UserProfileHeader } from '../components/UserProfileHeader';
 import { HorizontalScrollableView } from '../components/HorizontalScrollableView';
-import { useUserInfo } from '../context/userTour';
+
+import { useUserInfo } from '../context/userInfo';
 import productData from '../services/data'
 import data from '../services/data';
 
@@ -23,17 +24,10 @@ import { useNavigation } from '@react-navigation/core';
 import { Product } from '../ts/types';
 
 export function Homepage() {
-    const [selectedProduct, setSelectedProduct] = useState<Product>({} as Product)
     const { userInfo, userInfoController } = useUserInfo()
     const navigation = useNavigation()
 
     function navigateToProduct(product: Product) {
-        navigation.navigate("ProductDetails", {
-            product
-        })
-    }
-
-    function featuredToDetails(product: Product) {
         navigation.navigate("ProductDetails", {
             product
         })
@@ -46,6 +40,7 @@ export function Homepage() {
                 style={styles.wave}
             >
                 <ScrollView style={styles.scrollContainer}>
+
                     <View style={styles.header}>
                         <UserProfileHeader
                             subLabel="Olá,"
@@ -54,13 +49,12 @@ export function Homepage() {
                     </View>
 
                     <View style={styles.body}>
-
                         <View style={styles.productsContainer}>
                             <Text style={styles.scrollableLabel}>
                                 Anunciados recentemente
                             </Text>
                             <HorizontalScrollableView
-                                selectedDispatch={setSelectedProduct}
+                                randomDragOnStart
                                 data={productData.new_products}
                                 onPress={(product) => navigateToProduct(product)}
                             />
@@ -69,10 +63,10 @@ export function Homepage() {
                         <View style={styles.productsContainer}>
                             <Text style={styles.scrollableLabel}>
                                 Vistos anteriormente
-                        </Text>
+                            </Text>
 
                             <HorizontalScrollableView
-                                selectedDispatch={setSelectedProduct}
+                                randomDragOnStart
                                 data={productData.new_products}
                                 onPress={(product) => navigateToProduct(product)}
                             />

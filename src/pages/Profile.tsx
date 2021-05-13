@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { Button } from '../components/Button';
 import { UserProfileHeader } from '../components/UserProfileHeader';
-import { useUserInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userInfo';
 import { asyncRemoveUserFromDatabase, getAsyncLocalUserId, handleAsyncStorageData } from '../utils/userData'
 
 import dimensions from '../styles/dimensions';
@@ -14,9 +14,9 @@ import wavebackground from '../static_assets/wavebackground.png'
 
 export function Profile() {
     const { userInfo, userInfoController } = useUserInfo()
-
     const navigation = useNavigation()
 
+    //Clear usarData and go to app start normal cicle
     async function clearUserData() {
         Alert.alert(
             'Limpar dados e sair do aplicativo?',
@@ -34,7 +34,7 @@ export function Profile() {
 
                         //Navigate to tour cycle
                         navigation.dispatch(
-                            StackActions.replace("TourHome")
+                            StackActions.replace("LoadingPage")
                         )
                     }
                 },
@@ -42,8 +42,6 @@ export function Profile() {
             { cancelable: false }
         )
     }
-
-    //use function from userData to remove user
 
     return (
         <SafeAreaView style={styles.container}>

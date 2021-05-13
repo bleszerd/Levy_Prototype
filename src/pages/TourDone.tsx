@@ -12,7 +12,7 @@ import {handleAsyncStorageData} from '../utils/userData'
 
 import AllDone from '../components/assets/AllDone'
 import { Button } from '../components/Button';
-import { useUserInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userInfo';
 
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
@@ -55,7 +55,7 @@ export function TourDone() {
 
         //Handle app screen cycle
         navigation.dispatch(StackActions.popToTop())
-        navigation.dispatch(StackActions.replace("TabRoutes"))
+        navigation.dispatch(StackActions.replace("LoadingPage"))
     }
 
     return (

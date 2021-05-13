@@ -7,36 +7,39 @@ import {
 } from 'react-native'
 import { HandlerStateChangeEvent, Swipeable } from 'react-native-gesture-handler';
 
-import wavebackground from '../static_assets/wavebackground.png'
 import dimensions from '../styles/dimensions';
-import colors from '../styles/colors';
 
 export function ProductGallery({ route }: any) {
     const [galleryItems, setGalleryItems] = useState<any[]>(route.params.galleryData)
     const [activeItemId, setActiveItemId] = useState<number>(route.params.itemIndex)
 
+    //Capture event and handle photo based on dragX position
     function handlePhotoActive(event: HandlerStateChangeEvent<Record<string, unknown>>) {
         const dragX = Number(event.nativeEvent.translationX)
+
+        //If dragged to right go to previous photo
         if (dragX >= 70) {
             navigateToPreviousPhoto()
         }
-
+        //If dragged to left go to next photo
         if (dragX <= -70) {
             navigateToNextPhoto()
         }
     }
 
+    //Go to previous photo
     function navigateToPreviousPhoto() {
         if (activeItemId > 0)
             setActiveItemId(activeId => activeId - 1)
-
     }
 
+    //Go to next photo
     function navigateToNextPhoto() {
         if (activeItemId < galleryItems.length - 1)
             setActiveItemId(activeId => activeId + 1)
     }
 
+    //Left and right drag content
     function ActionContainer() {
         return (
             <View style={styles.swipeableItem} />
@@ -45,23 +48,23 @@ export function ProductGallery({ route }: any) {
 
     return (
         <SafeAreaView style={styles.container}>
-                <Swipeable
-                    renderLeftActions={ActionContainer}
-                    renderRightActions={ActionContainer}
-                    leftThreshold={dimensions.window.width * 2}
-                    rightThreshold={dimensions.window.width * 2}
-                    onEnded={event => handlePhotoActive(event)}
-                    friction={3}
-                >
-                    <Image style={styles.galleryImage}
-                        source={{
-                            uri: galleryItems[activeItemId].image
-                        }}
-                        height={dimensions.window.height}
-                        resizeMode="contain"
-                        
-                    />
-                </Swipeable>
+            <Swipeable
+                renderLeftActions={ActionContainer}
+                renderRightActions={ActionContainer}
+                leftThreshold={dimensions.window.width * 2}
+                rightThreshold={dimensions.window.width * 2}
+                onEnded={event => handlePhotoActive(event)}
+                friction={3}
+            >
+                <Image style={styles.galleryImage}
+                    source={{
+                        uri: galleryItems[activeItemId].image
+                    }}
+                    height={dimensions.window.height}
+                    resizeMode="contain"
+
+                />
+            </Swipeable>
         </SafeAreaView>
     )
 }

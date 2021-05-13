@@ -5,7 +5,7 @@ import {
     StyleSheet,
     Image,
 } from 'react-native'
-import { useUserInfo } from '../../context/userTour'
+import { useUserInfo } from '../../context/userInfo'
 
 import colors from '../../styles/colors'
 import dimensions from '../../styles/dimensions'
