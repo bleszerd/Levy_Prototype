@@ -19,6 +19,7 @@ import { ProductGallery } from '../pages/ProductGallery'
 import colors from '../styles/colors'
 import dimensions from '../styles/dimensions'
 import { ProductForm } from '../pages/ProductForm'
+import { LoadingPage } from '../pages/LoadingPage'
 
 const StackRoute = createStackNavigator()
 const TabRoute = createBottomTabNavigator()
@@ -33,6 +34,11 @@ export default function StackRoutes() {
                 },
             }}
         >
+
+            <StackRoute.Screen
+                name="LoadingPage"
+                component={LoadingPage}
+            />
 
             <StackRoute.Screen
                 name="TourHome"
@@ -122,12 +128,12 @@ function TabRoutes() {
                 options={{
                     tabBarIcon: ({ focused }) => (
                         <View style={{
-                            marginBottom: 40,
+                            marginBottom: 30,
                         }}
                         >
                             <ButtonNavigation
                                 active={focused}
-                                width={dimensions.screen.width * .2}
+                                width={dimensions.screen.width * .18}
                             />
                         </View>
                     )

@@ -7,7 +7,9 @@ import {
 } from 'react-native';
 import { RectButton } from 'react-native-gesture-handler'
 import { useNavigation } from '@react-navigation/core';
-import { useUserInfo } from '../context/userTour';
+import { Gender } from '../ts/types';
+
+import { useUserInfo } from '../context/userInfo';
 
 import FemaleProfile from '../components/assets/FemaleProfile'
 import MaleProfile from '../components/assets/MaleProfile'
@@ -18,7 +20,6 @@ import dimensions from '../styles/dimensions';
 import colors from '../styles/colors';
 import fonts from '../styles/fonts';
 
-export type Gender = "male" | "female"
 
 export function TourGender() {
     const [gender, setGender] = useState<Gender>("female")
@@ -75,6 +76,7 @@ export function TourGender() {
                             styles.genderEffect,
                             gender === 'female' && styles.genderEffectActive
                         ]} />
+                        
                         <FemaleProfile
                             width={dimensions.window.width * .35}
                         />
@@ -90,6 +92,7 @@ export function TourGender() {
                             styles.genderEffect,
                             gender === 'male' && styles.genderEffectActive
                         ]} />
+
                         <MaleProfile
                             width={dimensions.window.width * .35}
                         />

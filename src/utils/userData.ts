@@ -1,6 +1,6 @@
 import Parse from 'parse/react-native'
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { UserInfo } from '../context/userTour';
+import { UserInfo } from '../context/userInfo';
 
 //Application package name, used as key to unique value on AsyncStorage
 const APP_PACKAGE_NAME = "com.github.levy"
@@ -14,7 +14,7 @@ export async function getAsyncLocalUserId() {
 }
 
 //Convert database model to userInfo context data
-export function parseUserToTourInfo(userData: Parse.Object<Parse.Attributes>) {
+export function parseUserToUserInfo(userData: Parse.Object<Parse.Attributes>) {
     const userDataSanitized: UserInfo = {
         gender: userData.get('gender'),
         name: userData.get('name'),

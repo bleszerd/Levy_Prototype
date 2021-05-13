@@ -5,7 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 
 import { Button } from '../components/Button';
 import { UserProfileHeader } from '../components/UserProfileHeader';
-import { useUserInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userInfo';
 import { asyncRemoveUserFromDatabase, getAsyncLocalUserId, handleAsyncStorageData } from '../utils/userData'
 
 import dimensions from '../styles/dimensions';
@@ -34,7 +34,7 @@ export function Profile() {
 
                         //Navigate to tour cycle
                         navigation.dispatch(
-                            StackActions.replace("TourHome")
+                            StackActions.replace("LoadingPage")
                         )
                     }
                 },

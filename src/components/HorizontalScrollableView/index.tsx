@@ -1,4 +1,4 @@
-import React, { ReactNode, useEffect } from 'react';
+import React, { ReactNode, useEffect, useRef } from 'react';
 import {
     View,
     StyleSheet,
@@ -19,12 +19,25 @@ import { parseStrCategoryToCorrectFormat, parseStrMoneyToCorrectFormat } from '.
 interface HorizontalProductScrollableView {
     data: Product[]
     onPress?: (product: Product) => void
-    selectedDispatch: React.Dispatch<React.SetStateAction<Product>>
+    randomDragOnStart?: boolean
+    randomDragStrength?: number
 }
 
-export function HorizontalScrollableView({ data, onPress, selectedDispatch }: HorizontalProductScrollableView) {
-    useEffect(() => {
+export function HorizontalScrollableView({ data, onPress, randomDragOnStart, randomDragStrength }: HorizontalProductScrollableView) {
+    const flatListRef = useRef<any>(null)
+
+    useEffect(()=>{
+        if(randomDragOnStart)
+            dragToRandomStartPosition()
     }, [])
+
+    function dragToRandomStartPosition() {
+        if (flatListRef) {
+            flatListRef.current.scrollToOffset({
+                offset: Math.floor(Math.random() * (randomDragStrength || dimensions.screen.width * .3))
+            })
+        }
+    }
 
     function handleOnPress(productData: Product) {
         if (onPress)
@@ -34,10 +47,10 @@ export function HorizontalScrollableView({ data, onPress, selectedDispatch }: Ho
     return (
         <View style={styles.flatContainer}>
             <FlatList style={styles.container}
+                ref={flatListRef}
                 data={data}
                 renderItem={({ item, index }) => (
                     <TouchableWithoutFeedback style={styles.flatContainer}
-                        /*Navigate to stack again*/
                         onPress={() => handleOnPress(item)}
                     >
                         <ImageBackground style={[

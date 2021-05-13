@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import productData from '../services/data'
 
 import { UserProfileHeader } from '../components/UserProfileHeader';
-import { useUserInfo } from '../context/userTour';
+import { useUserInfo } from '../context/userInfo';
 import dimensions from '../styles/dimensions';
 import wavebackground from '../static_assets/wavebackground.png'
 import { Product } from '../ts/types';
