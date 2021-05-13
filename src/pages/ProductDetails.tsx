@@ -79,7 +79,8 @@ export function ProductDetails({ route }: any) {
 
     function navigateToEditForm(productToEdit: Product){
         navigation.navigate("ProductForm", {
-            product
+            product,
+            environment
         })
     }
 

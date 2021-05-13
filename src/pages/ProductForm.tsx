@@ -10,7 +10,7 @@ import {
     KeyboardAvoidingView,
     Keyboard
 } from 'react-native'
-import { ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
+import { RectButton, ScrollView, TouchableOpacity, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import { Picker } from '@react-native-picker/picker'
 import { parseStrMoneyToCorrectFormat } from '../utils/text'
 import { MaterialCommunityIcons, MaterialIcons } from '@expo/vector-icons'
@@ -21,7 +21,7 @@ import wave from '../static_assets/wavebackground.png'
 import colors from '../styles/colors';
 import dimensions from '../styles/dimensions';
 import fonts from '../styles/fonts';
-import { Product } from '../ts/types';
+import { GalleryItem, Product } from '../ts/types';
 import { Button } from '../components/Button';
 import { StackActions, useNavigation } from '@react-navigation/core';
 
@@ -47,6 +47,20 @@ export function ProductForm({ route }: any) {
 
     useEffect(() => {
         handleRequestPermission()
+    }, [])
+
+    useEffect(() => {
+        function base64GalleryExtractor(galleryData: GalleryItem[]) {
+            const galleryArr: string[] = []
+
+            galleryData.map(item => galleryArr.push(item.image))
+
+            return galleryArr
+        }
+
+        if (product.productData.gallery) {
+            setBase64Gallery(base64GalleryExtractor(product.productData.gallery))
+        }
     }, [])
 
     useEffect(() => {
@@ -172,7 +186,6 @@ export function ProductForm({ route }: any) {
                 </View>
 
                 {
-
                     productImage && <Image
                         resizeMode="cover"
                         style={styles.headerImg}
@@ -220,7 +233,7 @@ export function ProductForm({ route }: any) {
                         <View style={styles.currencyIcon}>
                             <MaterialCommunityIcons
                                 name="currency-usd"
-                                size={40}
+                                size={24}
                                 color={colors.success}
                             />
                         </View>
@@ -248,25 +261,45 @@ export function ProductForm({ route }: any) {
                     </KeyboardAvoidingView>
 
                     <Text style={styles.label}>Fotos do anúncio</Text>
-                    <View style={styles.buttonContainer}>
-                        <Button
-                            text="Adicionar foto"
+
+                    {
+                        !base64Gallery && <TouchableOpacity style={styles.addImageButtonContainer}
                             onPress={() => setCameraIsOpen(true)}
-                        />
-                    </View>
+                        >
+                            <MaterialIcons
+                                name="add-a-photo"
+                                size={64}
+                                color={colors.white}
+                            />
+                            <Text style={styles.buttonLabel}>Adicionar uma imagem ao produto</Text>
+                        </TouchableOpacity>
+                    }
 
                     <ScrollView style={styles.galleryContainer}
                         horizontal
                     >
                         {
-                            base64Gallery && base64Gallery.map(item => (
-                                <Image
+                            base64Gallery && base64Gallery.map((item, index) => (
+                                <ImageBackground
                                     source={{
-                                        uri: `data:image/jpg;base64,${item}`
+                                        uri: item.includes('http://') || item.includes('https://') ? item : `data:image/jpg;base64,${item}`
                                     }}
                                     resizeMode="cover"
+                                    borderRadius={8}
                                     style={styles.selectedPhoto}
-                                />
+                                >
+                                    {
+                                        base64Gallery && <TouchableOpacity style={styles.addPhotoButton}
+                                            onPress={() => setCameraIsOpen(true)}
+                                        >
+                                            <MaterialIcons
+                                                name="add-a-photo"
+                                                size={24}
+                                                color={colors.white}
+                                            />
+                                        </TouchableOpacity>
+                                    }
+                                </ImageBackground>
                             ))
                         }
 
@@ -394,6 +427,7 @@ const styles = StyleSheet.create({
     },
     buttonContainer: {
         paddingHorizontal: dimensions.window.width * 0.02,
+        justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 16,
     },
@@ -430,8 +464,33 @@ const styles = StyleSheet.create({
     },
     selectedPhoto: {
         height: dimensions.screen.height * .8,
-        width: dimensions.screen.width * .9,
-        borderRadius: 6,
+        width: dimensions.screen.width * .94,
         marginHorizontal: 2,
     },
+    addImageButtonContainer: {
+        justifyContent: 'space-evenly',
+        alignItems: 'center',
+        flexDirection: 'row',
+        paddingVertical: 42,
+        marginHorizontal: 23,
+        borderWidth: 2,
+        borderColor: colors.dark_orange,
+        borderRadius: dimensions.screen.width * .02,
+        backgroundColor: colors.soft_dark
+    },
+    buttonLabel: {
+        color: colors.white,
+        fontFamily: fonts.text,
+        width: dimensions.window.width * .4,
+    },
+    addPhotoButton: {
+        backgroundColor: colors.soft_dark,
+        elevation: 4,
+        alignSelf: 'flex-end',
+        marginRight: dimensions.screen.width * .04,
+        marginTop: dimensions.screen.width * .04,
+        padding: 12,
+        borderRadius: dimensions.screen.width,
+        maxWidth: 48,
+    }
 })
