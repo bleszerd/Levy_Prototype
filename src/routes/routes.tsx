@@ -28,9 +28,10 @@ export default function StackRoutes() {
     return (
         <StackRoute.Navigator
             headerMode="none"
+            detachInactiveScreens={false}
             screenOptions={{
                 cardStyle: {
-                    backgroundColor: colors.dark,
+                    backgroundColor: "#000",
                 },
             }}
         >
