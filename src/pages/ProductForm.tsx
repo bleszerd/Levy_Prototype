@@ -433,7 +433,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
     },
     camera: {
-        alignSelf: 'center'
+        alignSelf: 'center',
     },
     cameraSubView: {
         width: dimensions.window.width,

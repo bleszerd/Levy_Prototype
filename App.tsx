@@ -14,6 +14,7 @@ import { initialize } from './src/services/database'
 
 import Routes from './src/routes'
 import colors from './src/styles/colors'
+import dimensions from './src/styles/dimensions'
 
 initialize()
 
@@ -38,11 +39,15 @@ export default function App() {
         </View>
 
     return (
-        <>
+        <View style={{
+            backgroundColor: colors.dark,
+            width: dimensions.screen.width,
+            height: dimensions.screen.height,
+        }}>
             <StatusBar
                 hidden={true}
             />
             <Routes />
-        </>
+        </View>
     )
 }

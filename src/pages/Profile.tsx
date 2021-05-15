@@ -1,5 +1,5 @@
-import React from 'react'
-import { SafeAreaView, View, StyleSheet, Alert, BackHandler, ImageBackground } from "react-native";
+import React, { useEffect, useState } from 'react'
+import { SafeAreaView, View, StyleSheet, Alert, BackHandler, ImageBackground, Text } from "react-native";
 import { ScrollView } from 'react-native-gesture-handler';
 import AsyncStorage from '@react-native-async-storage/async-storage'
 
@@ -11,10 +11,23 @@ import { asyncRemoveUserFromDatabase, getAsyncLocalUserId, handleAsyncStorageDat
 import dimensions from '../styles/dimensions';
 import { StackActions, useNavigation } from '@react-navigation/core';
 import wavebackground from '../static_assets/wavebackground.png'
+import colors from '../styles/colors';
+import fonts from '../styles/fonts';
 
 export function Profile() {
+    const [userId, setUserId] = useState<string>()
+
     const { userInfo, userInfoController } = useUserInfo()
     const navigation = useNavigation()
+
+    useEffect(() => {
+        getUserId()
+    }, [])
+
+    async function getUserId() {
+        const userId = await getAsyncLocalUserId()
+        setUserId(userId)
+    }
 
     //Clear usarData and go to app start normal cicle
     async function clearUserData() {
@@ -58,6 +71,18 @@ export function Profile() {
                         />
                     </View>
 
+                    <View style={styles.body}>
+                        <Text style={styles.profileDataLabel}>Dados da sua conta</Text>
+                        <View style={styles.dataRow}>
+                            <Text style={styles.profileData}>{userInfo.name}</Text>
+                        </View>
+
+                        <Text style={styles.profileDataLabel}>Dados da sua conta</Text>
+                        <View style={styles.dataRow}>
+                            <Text style={styles.profileData}>{userInfo.name}</Text>
+                        </View>
+                    </View>
+
                     <View style={styles.buttonContainer}>
                         <Button
                             onPress={clearUserData}
@@ -92,5 +117,22 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         paddingHorizontal: dimensions.window.width * 0.04
+    },
+    body: {
+        flex: 1,
+        paddingHorizontal: 16,
+    },
+    profileDataLabel: {
+        color: colors.plate,
+        fontFamily: fonts.text,
+    },
+    dataRow: {
+        flexDirection: 'row',
+    },
+    profileData: {
+        color: colors.white,
+        paddingBottom: 8,
+        fontFamily: fonts.title,
+        fontSize: 18,
     }
 })
